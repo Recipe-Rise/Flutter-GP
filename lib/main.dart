@@ -49,7 +49,7 @@ class FitFork extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData().copyWith(scaffoldBackgroundColor: Colors.white),
-            home: const SplashView(),
+            home : startWidget,
           );
         },
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kTranstionDuration = Duration(milliseconds: 250);
-const kPrimaryColor = Color(0xff5CB1AF);
+const kPrimaryColor = Color(0xff5CB1FF);
 
 const LinearGradient kButtonColor = LinearGradient(
   colors: [

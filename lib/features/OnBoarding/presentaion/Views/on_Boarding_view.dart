@@ -1,8 +1,10 @@
+import 'package:fitfork_gp/constants.dart';
 import 'package:fitfork_gp/core/utils/assets.dart';
 import 'package:fitfork_gp/features/OnBoarding/data/models/onboarding_item.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_indicator.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_page.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
+import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -41,11 +43,43 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
+  bool isLast = false;
+
+  void submit(){
+    CacheHelper.saveData(key: 'onBoarding', value: true).then((value){
+
+      if(value) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterScreen1()),
+              (Route<dynamic> route) => false,
+        );
+      }
+
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        actions: [
+          TextButton(
+            onPressed: (){
+              submit();
+            },
+            child: const Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -57,10 +91,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               controller: _pageController,
               itemCount: _onboardingItems.length,
               onPageChanged: (int page) {
+                if(page == _onboardingItems.length - 1){
+                  setState(() {
+                    isLast = true;
+                  });
+                }
+                else {
+                  setState(() {
+                    isLast =  false;
+                  });
+                }
                 setState(() {
                   _currentPage = page;
                 });
               },
+              physics:  BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return OnboardingPage(
                   item: _onboardingItems[index],
@@ -88,15 +133,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             if (_currentPage < _onboardingItems.length - 1) {
               _pageController.nextPage(
                 duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
+                curve: Curves.fastLinearToSlowEaseIn,
               );
             } else {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegisterScreen1(),
-                ),
-              );
+              if(isLast){
+                submit();
+              }
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => RegisterScreen1(),
+              //   ),
+              // );
             }
           },
           child: Image.asset(
