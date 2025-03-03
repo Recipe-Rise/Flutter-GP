@@ -6,12 +6,18 @@ part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitial());
+
+  // Private field
   final RegisterData _registerData = RegisterData(
-      firstName: " ",
-      lastName: " ",
-      email: " ",
-      password: " ",
-      dateOfBirth: DateTime.now());
+    firstName: " ",
+    lastName: " ",
+    email: " ",
+    password: " ",
+    dateOfBirth: DateTime.now(),
+  );
+
+  // Public getter for _registerData
+  RegisterData get registerData => _registerData;
 
   void goToStep1() {
     emit(RegisterStep1(_registerData));

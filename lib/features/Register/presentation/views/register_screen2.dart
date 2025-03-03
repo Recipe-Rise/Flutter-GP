@@ -184,7 +184,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
               const SizedBox(height: 24),
               Center(
                 child: CustomGradientButton(
-                  text: 'Next',
+                  text: 'Register',
                   onPressed: () {
                     if (_selectedGender == null) {
                       ScaffoldMessenger.of(context).showSnackBar(

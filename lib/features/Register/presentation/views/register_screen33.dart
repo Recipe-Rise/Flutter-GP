@@ -1,8 +1,10 @@
 import 'package:fitfork_gp/constants.dart';
 import 'package:fitfork_gp/core/utils/assets.dart';
+import 'package:fitfork_gp/features/Register/presentation/cubit/cubit/register_cubit.dart';
+import 'package:fitfork_gp/features/Register/presentation/views/success_screen.dart';
 import 'package:fitfork_gp/features/Register/presentation/widgets/custom_gradient_button.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterScreen33 extends StatelessWidget {
   const RegisterScreen33({super.key});
@@ -46,12 +48,16 @@ class RegisterScreen33 extends StatelessWidget {
             CustomGradientButton(
               text: 'Confirm',
               onPressed: () {
+                final cubit = context.read<RegisterCubit>();
+
                 Navigator.push(
                   context,
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        const RegisterScreen33(),
+                        SuccessScreen(
+                      firstName: cubit.registerData.firstName,
+                    ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return FadeTransition(
