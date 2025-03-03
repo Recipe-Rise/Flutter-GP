@@ -13,10 +13,9 @@ class OnboardingPage extends StatelessWidget {
         // Image with reduced height
         Image.asset(
           item.imagePath,
-          width: MediaQuery.of(context).size.width, // Full width
-          height:
-              MediaQuery.of(context).size.height * 0.6, // 60% of screen height
-          fit: BoxFit.cover, // Ensures the image covers the area
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.6,
+          fit: BoxFit.cover,
         ),
         // Text below the image
         Padding(

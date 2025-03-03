@@ -11,4 +11,7 @@ class AssetsData {
   static const reg33 = 'assets/images/reg33.png';
   static const flogo = 'assets/images/logo003.png';
   static const sliding = 'assets/images/name.png';
+  static const sucess = 'assets/images/sucess.png';
+  static const face = 'assets/images/face.png';
+  static const google = 'assets/images/google.png';
 }
