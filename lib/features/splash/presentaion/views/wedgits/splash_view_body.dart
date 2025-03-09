@@ -1,7 +1,9 @@
 import 'package:fitfork_gp/constants.dart';
 import 'package:fitfork_gp/core/utils/assets.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/on_Boarding_view.dart';
+import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
 import 'package:fitfork_gp/features/splash/presentaion/views/wedgits/sliding_text.dart';
+import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -17,12 +19,15 @@ class _SplashViewBodyState extends State<SplashViewBody>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<Offset> slidingAnimation;
+
+  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+
   @override
   void initState() {
     super.initState();
     InitSlidingAnimation();
     Future.delayed(const Duration(seconds: 3), () {
-      Get.to(() => OnboardingScreen(),
+      Get.to(() => onBoarding !=null ? OnboardingScreen() : RegisterScreen1(),
           transition: Transition.fade, duration: kTranstionDuration);
     });
   }
@@ -39,8 +44,8 @@ class _SplashViewBodyState extends State<SplashViewBody>
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Image.asset(AssetsData.logo),
-        SlidingText(slidingAnimation: slidingAnimation),
+        Image.asset(AssetsData.flogo),
+        SlidingImage(slidingAnimation: slidingAnimation),
       ],
     );
   }

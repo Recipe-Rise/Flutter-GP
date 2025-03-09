@@ -1,8 +1,9 @@
 import 'package:fitfork_gp/constants.dart';
+import 'package:fitfork_gp/core/utils/assets.dart';
 import 'package:flutter/material.dart';
 
-class SlidingText extends StatelessWidget {
-  const SlidingText({
+class SlidingImage extends StatelessWidget {
+  const SlidingImage({
     super.key,
     required this.slidingAnimation,
   });
@@ -20,14 +21,11 @@ class SlidingText extends StatelessWidget {
             shaderCallback: (Rect bounds) {
               return kButtonColor.createShader(bounds);
             },
-            child: const Text(
-              "FitFork",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
+            child: Image.asset(
+              AssetsData.sliding,
+              width: 200,
+              height: 200,
+              fit: BoxFit.contain,
             ),
           ),
         );
