@@ -28,6 +28,7 @@ class WaterIntakeCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align to top
           children: [
             Container(
               height: 400,
@@ -98,7 +99,7 @@ class WaterIntakeCard extends StatelessWidget {
                             width: 12,
                             height: 12,
                             margin: const EdgeInsets.only(top: 5),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0xFFF1C3EF),
                               shape: BoxShape.circle,
                             ),
@@ -106,24 +107,27 @@ class WaterIntakeCard extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                update['time'],
-                                style: Styles.textStyle14.copyWith(
-                                  color: Colors.black54,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  update['time'],
+                                  style: Styles.textStyle14.copyWith(
+                                    color: Colors.black54,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                "${update['amount']}ml",
-                                style: Styles.textStyle14.copyWith(
-                                  color: const Color(0xFFD9C6FF),
-                                  fontWeight: FontWeight.bold,
+                                const SizedBox(height: 2),
+                                Text(
+                                  "${update['amount']}ml",
+                                  style: Styles.textStyle14.copyWith(
+                                    color: const Color(0xFFD9C6FF),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

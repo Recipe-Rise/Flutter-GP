@@ -51,7 +51,6 @@ class SuccessScreen extends StatelessWidget {
               child: CustomGradientButton(
                 text: 'Go To Home',
                 onPressed: () {
-                  // Navigate to HomeScreen with BMI and BMR
                   Navigator.push(
                     context,
                     MaterialPageRoute(
