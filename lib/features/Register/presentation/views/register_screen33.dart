@@ -50,6 +50,11 @@ class RegisterScreen33 extends StatelessWidget {
               onPressed: () {
                 final cubit = context.read<RegisterCubit>();
 
+                // Calculate BMI and BMR
+                final bmi = cubit.calculateBMI();
+                final bmr = cubit.calculateBMR();
+
+                // Navigate to SuccessScreen with BMI, BMR, and firstName
                 Navigator.push(
                   context,
                   PageRouteBuilder(
@@ -57,6 +62,8 @@ class RegisterScreen33 extends StatelessWidget {
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         SuccessScreen(
                       firstName: cubit.registerData.firstName,
+                      bmi: bmi,
+                      bmr: bmr,
                     ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {

@@ -184,7 +184,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
               const SizedBox(height: 24),
               Center(
                 child: CustomGradientButton(
-                  text: 'Register',
+                  text: 'Next',
                   onPressed: () {
                     if (_selectedGender == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -211,10 +211,11 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                     cubit.updateWeight(double.parse(_weightController.text));
                     cubit.updateHeight(double.parse(_heightController.text));
 
+                    // Navigate to RegisterScreen31
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RegisterScreen31(),
+                        builder: (context) => const RegisterScreen31(),
                       ),
                     );
                   },
