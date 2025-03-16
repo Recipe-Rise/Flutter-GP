@@ -3,10 +3,19 @@ import 'package:fitfork_gp/core/utils/assets.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
 import 'package:fitfork_gp/features/Register/presentation/widgets/custom_gradient_button.dart';
 import 'package:flutter/material.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart'; // Import HomeScreen
 
 class SuccessScreen extends StatelessWidget {
   final String firstName;
-  const SuccessScreen({super.key, required this.firstName});
+  final double bmi;
+  final double bmr;
+
+  const SuccessScreen({
+    super.key,
+    required this.firstName,
+    required this.bmi,
+    required this.bmr,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +32,12 @@ class SuccessScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
             Text(
               "Welcome, $firstName",
               style: Styles.textStyle26.copyWith(fontWeight: FontWeight.w800),
             ),
-            SizedBox(
-              height: 14,
-            ),
+            const SizedBox(height: 14),
             Opacity(
               opacity: 0.7,
               child: Text(
@@ -40,14 +45,27 @@ class SuccessScreen extends StatelessWidget {
                 style: Styles.textStyle14,
               ),
             ),
-            SizedBox(
-              height: 140,
-            ),
+            const SizedBox(height: 140),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: CustomGradientButton(
-                  text: 'Go To Home', onPressed: () {}, gradient: kButtonColor),
-            )
+                text: 'Go To Home',
+                onPressed: () {
+                  // Navigate to HomeScreen with BMI and BMR
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(
+                        bmi: bmi,
+                        bmr: bmr,
+                        firstName: firstName,
+                      ),
+                    ),
+                  );
+                },
+                gradient: kButtonColor,
+              ),
+            ),
           ],
         ),
       ),

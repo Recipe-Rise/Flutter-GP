@@ -23,7 +23,7 @@ class CustomGradientButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
           width: width,
           height: height,
