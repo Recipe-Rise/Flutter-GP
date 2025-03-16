@@ -7,7 +7,7 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/water_intake_card.
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final String firstName;
   final double bmi;
   final double bmr;
@@ -18,6 +18,13 @@ class HomeScreen extends StatelessWidget {
     required this.bmi,
     required this.bmr,
   });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -58,39 +65,36 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                firstName,
+                widget.firstName,
                 style: Styles.textStyle26,
               ),
               const SizedBox(height: 16),
-              BmiCard(bmi: bmi),
+              BmiCard(bmi: widget.bmi),
               const SizedBox(height: 24),
               const ActivityStatusHeader(),
               const SizedBox(height: 16),
-              // Your requested layout
               IntrinsicHeight(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Water Intake Card
                     Expanded(
                       flex: 1,
                       child: WaterIntakeCard(
                         waterIntakeInML: totalWaterIntake,
-                        timeUpdates: waterIntakeUpdates.sublist(0,
-                            3), // Only show first 3 updates to avoid overflow
+                        timeUpdates: waterIntakeUpdates,
                       ),
                     ),
                     const SizedBox(width: 16),
-                    // Sleep & Calories stacked vertically
                     Expanded(
                       flex: 1,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          SleepCard(hours: "8", minutes: "20"),
+                          const SleepCard(hours: "8", minutes: "20"),
                           const SizedBox(height: 16),
                           CaloriesCard(
-                            bmr: bmr,
-                            consumedCalories: bmr - 230,
+                            bmr: widget.bmr,
+                            consumedCalories: widget.bmr - 230,
                           ),
                         ],
                       ),
@@ -98,9 +102,41 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        elevation: 8,
+        selectedItemColor: const Color(0xFF1A75FF),
+        unselectedItemColor: Colors.grey,
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.dumbbell),
+            label: 'Workouts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.utensils),
+            label: 'Food',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.user),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
