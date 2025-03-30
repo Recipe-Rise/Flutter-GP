@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.utensils),
-            label: 'Food',
+            label: 'Recipes',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.user),

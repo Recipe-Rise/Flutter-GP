@@ -85,31 +85,31 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   // Calculate BMI
   double calculateBMI() {
-    if (_registerData.weight == null || _registerData.height == null) {
-      throw Exception('Weight and height must be set to calculate BMI.');
+    if (_registerData.weight <= 0 || _registerData.height <= 0) {
+      return 0.0; // Return 0 instead of throwing exception
     }
-    return _registerData.weight! /
-        ((_registerData.height! / 100) * (_registerData.height! / 100));
+    return _registerData.weight /
+        ((_registerData.height / 100) * (_registerData.height / 100));
   }
 
   // Calculate BMR
   double calculateBMR() {
-    if (_registerData.weight == null ||
-        _registerData.height == null ||
-        _registerData.dateOfBirth == null ||
-        _registerData.gender == null) {
-      throw Exception('All user data must be set to calculate BMR.');
+    if (_registerData.weight <= 0 ||
+        _registerData.height <= 0 ||
+        _registerData.gender.isEmpty) {
+      return 0.0; // Return 0 instead of throwing exception
     }
-    final age = DateTime.now().year - _registerData.dateOfBirth!.year;
+
+    final age = DateTime.now().year - _registerData.dateOfBirth.year;
     if (_registerData.gender == 'Male') {
       return 88.362 +
-          (13.397 * _registerData.weight!) +
-          (4.799 * _registerData.height!) -
+          (13.397 * _registerData.weight) +
+          (4.799 * _registerData.height) -
           (5.677 * age);
     } else {
       return 447.593 +
-          (9.247 * _registerData.weight!) +
-          (3.098 * _registerData.height!) -
+          (9.247 * _registerData.weight) +
+          (3.098 * _registerData.height) -
           (4.330 * age);
     }
   }
