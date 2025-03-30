@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class RegisterData {
   String firstName;
   String lastName;
@@ -9,6 +8,7 @@ class RegisterData {
   double weight;
   double height;
   String goal;
+
   RegisterData({
     required this.firstName,
     required this.lastName,
