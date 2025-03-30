@@ -1,3 +1,4 @@
+import 'package:fitfork_gp/core/utils/app_navigator.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/activity_status_header.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/bmi_card.dart';
@@ -115,9 +116,19 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          if (index != _selectedIndex) {
+            // Use AppNavigator to handle navigation
+            final args = {
+              'firstName': widget.firstName,
+              'bmi': widget.bmi,
+              'bmr': widget.bmr,
+            };
+            AppNavigator.navigateToTabScreen(context, index, arguments: args);
+          } else {
+            setState(() {
+              _selectedIndex = index;
+            });
+          }
         },
         items: const [
           BottomNavigationBarItem(

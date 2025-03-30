@@ -42,11 +42,11 @@ class DetailedBmiScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Please Modify the values',
-              style: Styles.textStyle16
-                  .copyWith(color: Colors.black.withOpacity(0.6)),
-            ),
+            // Text(
+            //   'Please Modify the values',
+            //   style: Styles.textStyle16
+            //       .copyWith(color: Colors.black.withOpacity(0.6)),
+            // ),
             const SizedBox(
               height: 20,
             ),
