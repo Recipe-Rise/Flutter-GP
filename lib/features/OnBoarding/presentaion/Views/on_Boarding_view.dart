@@ -3,7 +3,10 @@ import 'package:fitfork_gp/features/OnBoarding/data/models/onboarding_item.dart'
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_indicator.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_page.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/cubits/onboarding_cubit.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/views/goal_selection_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -13,7 +16,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-
   final List<OnboardingItem> _onboardingItems = [
     OnboardingItem(
       title: "Track Your Goal",
@@ -94,7 +96,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RegisterScreen1(),
+                  builder: (context) => BlocProvider(
+                    create: (context) => OnboardingCubit(),
+                    child: GoalSelectionScreen(),
+                  ),
                 ),
               );
             }
