@@ -1,4 +1,3 @@
-import 'package:fitfork_gp/core/utils/styles.dart';
 import 'package:fitfork_gp/features/Profile/presentation/widgets/profile_bottom_nav_bar.dart';
 import 'package:fitfork_gp/features/Profile/presentation/widgets/profile_header.dart';
 import 'package:fitfork_gp/features/Profile/presentation/widgets/profile_menu_section.dart';
