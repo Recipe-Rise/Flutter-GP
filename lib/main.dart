@@ -11,28 +11,24 @@ import 'package:fitfork_gp/shared/bloc_observer.dart';
 import 'package:fitfork_gp/shared/cubit/appCubit.dart';
 import 'package:fitfork_gp/shared/cubit/appCubitStates.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer =  MyBlocObserver();
+  Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
 
   Widget widget;
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
 
-
-  if(onBoarding != null){
+  if (onBoarding != null) {
     widget = RegisterScreen1();
-  }
-  else {
+  } else {
     widget = OnboardingScreen();
   }
-  runApp(FitFork(startWidget : widget));
+  runApp(FitFork(startWidget: widget));
 }
 
-
 class FitFork extends StatelessWidget {
-
   final Widget startWidget;
   FitFork({required this.startWidget});
 
@@ -40,16 +36,21 @@ class FitFork extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit(),),
-        BlocProvider(create: (BuildContext context) => RegisterCubit(),),
+        BlocProvider(
+          create: (BuildContext context) => AppCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => RegisterCubit(),
+        ),
       ],
-      child: BlocConsumer<AppCubit,AppStates>(
+      child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
-        builder: (context,state) {
+        builder: (context, state) {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: ThemeData().copyWith(scaffoldBackgroundColor: Colors.white),
-            home : startWidget,
+            theme:
+                ThemeData().copyWith(scaffoldBackgroundColor: Colors.white10),
+            home: startWidget,
           );
         },
       ),
