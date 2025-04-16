@@ -22,9 +22,10 @@ class DioHelper {
   static Future<Response?> getData({
     required String url,
   }) async {
-    dio?.options.headers = {
-      'Content-Type' : 'application/json',
-    };
+
+    // dio?.options.headers = {
+    //   'Content-Type' : 'application/json',
+    // };
 
     return await dio?.get(
       url,

@@ -1,6 +1,7 @@
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/on_Boarding_view.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
 import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
+import 'package:fitfork_gp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -15,6 +16,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer =  MyBlocObserver();
   await CacheHelper.init();
+  DioHelper.init();
 
   Widget widget;
 
