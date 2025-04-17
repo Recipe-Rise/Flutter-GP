@@ -12,6 +12,8 @@ class WorkOutCubit extends Cubit<WorkOutsStates>{
 
   static WorkOutCubit get(context) => BlocProvider.of(context);
 
+  List<GetAllExcercises> exercisesList = [];
+
   GetAllExcercises? getAllExcercises;
 
   void getAllExcercisesData() {
@@ -20,6 +22,12 @@ class WorkOutCubit extends Cubit<WorkOutsStates>{
     DioHelper.getData(
         url: ALLEXERCISES,
     ).then((value) {
+
+      exercisesList = (value?.data as List)
+          .map((exercise) => GetAllExcercises.fromJson(exercise))
+          .toList();
+
+      print(exercisesList[0].instructions);
 
       getAllExcercises = GetAllExcercises.fromJson(value?.data);
       emit(WorkOutsSuccessState());

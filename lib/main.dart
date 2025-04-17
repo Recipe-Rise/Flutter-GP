@@ -1,5 +1,6 @@
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/on_Boarding_view.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
+import 'package:fitfork_gp/features/WorkOuts/presentation/cubit/cubit.dart';
 import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
 import 'package:fitfork_gp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class FitFork extends StatelessWidget {
       providers: [
         BlocProvider(create: (BuildContext context) => AppCubit(),),
         BlocProvider(create: (BuildContext context) => RegisterCubit(),),
+        BlocProvider(create: (BuildContext context) => WorkOutCubit()..getAllExcercisesData(),),
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context, state) {},

@@ -5,6 +5,8 @@ import 'package:fitfork_gp/features/Profile/presentation/views/profile_screen.da
 import 'package:fitfork_gp/features/Recipes/presentation/views/recipes_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/WorkOuts/presentation/views/all_ex_view.dart';
+
 // Import other screens as needed
 
 class AppNavigator {
@@ -29,7 +31,7 @@ class AppNavigator {
       case 1:
         routeName = '/workouts';
         // Replace with your workouts screen
-        screen = Scaffold(appBar: AppBar(title: const Text('Workouts')));
+        screen = const WorkOutsView();
         break;
       case 2:
         routeName = '/recipes';
