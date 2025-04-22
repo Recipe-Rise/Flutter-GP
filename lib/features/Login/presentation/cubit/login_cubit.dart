@@ -1,3 +1,4 @@
+import 'package:fitfork_gp/features/Login/presentation/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -21,17 +22,4 @@ class LoginCubit extends Cubit<LoginState> {
           "An error occurred: ${e.toString()}")); // Emit failure state
     }
   }
-}
-
-abstract class LoginState {}
-
-class LoginInitial extends LoginState {}
-
-class LoginLoading extends LoginState {}
-
-class LoginSuccess extends LoginState {}
-
-class LoginFailure extends LoginState {
-  final String error;
-  LoginFailure(this.error);
 }
