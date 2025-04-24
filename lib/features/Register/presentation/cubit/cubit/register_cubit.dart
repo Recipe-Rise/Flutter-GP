@@ -83,21 +83,19 @@ class RegisterCubit extends Cubit<RegisterState> {
     _registerData.goal = goal;
   }
 
-  // Calculate BMI
   double calculateBMI() {
     if (_registerData.weight <= 0 || _registerData.height <= 0) {
-      return 0.0; // Return 0 instead of throwing exception
+      return 0.0;
     }
     return _registerData.weight /
         ((_registerData.height / 100) * (_registerData.height / 100));
   }
 
-  // Calculate BMR
   double calculateBMR() {
     if (_registerData.weight <= 0 ||
         _registerData.height <= 0 ||
         _registerData.gender.isEmpty) {
-      return 0.0; // Return 0 instead of throwing exception
+      return 0.0;
     }
 
     final age = DateTime.now().year - _registerData.dateOfBirth.year;

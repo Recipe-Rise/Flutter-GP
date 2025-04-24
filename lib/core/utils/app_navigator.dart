@@ -3,15 +3,12 @@
 import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
 import 'package:fitfork_gp/features/Profile/presentation/views/profile_screen.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/views/recipes_screen.dart';
+import 'package:fitfork_gp/features/Workout/presentation/views/workout_screen.dart';
 import 'package:flutter/material.dart';
 
-// Import other screens as needed
-
 class AppNavigator {
-  // Navigate to screen based on bottom navigation index
   static void navigateToTabScreen(BuildContext context, int index,
       {Object? arguments}) {
-    // Get current route to avoid pushing the same route
     final String? currentRoute = ModalRoute.of(context)?.settings.name;
 
     String routeName;
@@ -29,7 +26,7 @@ class AppNavigator {
       case 1:
         routeName = '/workouts';
         // Replace with your workouts screen
-        screen = Scaffold(appBar: AppBar(title: const Text('Workouts')));
+        screen = const WorkoutsScreen();
         break;
       case 2:
         routeName = '/recipes';

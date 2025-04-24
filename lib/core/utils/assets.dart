@@ -15,4 +15,8 @@ class AssetsData {
   static const face = 'assets/images/face.png';
   static const google = 'assets/images/google.png';
   static const sleep = 'assets/images/sleep.png';
+  static const ab = 'assets/images/ab.png';
+  static const full = 'assets/images/full.png';
+  static const first = 'assets/images/first.png';
+  static const low = 'assets/images/low.png';
 }
