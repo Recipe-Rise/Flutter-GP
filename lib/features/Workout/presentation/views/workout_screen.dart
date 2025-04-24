@@ -110,59 +110,80 @@ class CustomIconButton extends StatelessWidget {
 }
 
 class CurvedContainerSection extends StatelessWidget {
-  const CurvedContainerSection({super.key});
+  const CurvedContainerSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Expanded(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(size.width * 0.08),
-            topRight: Radius.circular(size.width * 0.08),
-          ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(size.width * 0.05),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('What Do You Want to Train',
-                  style:
-                      Styles.textStyle20.copyWith(fontWeight: FontWeight.bold)),
-              SizedBox(height: size.height * 0.02),
-              Expanded(
-                child: ListView(
-                  children: [
-                    const WorkoutCard(
-                      title: 'Fullbody Workout',
-                      exercises: 11,
-                      duration: 32,
-                      imagePath: AssetsData.full,
-                    ),
-                    SizedBox(height: size.height * 0.03),
-                    const WorkoutCard(
-                      title: 'Lowerbody Workout',
-                      exercises: 12,
-                      duration: 40,
-                      imagePath: AssetsData.low,
-                    ),
-                    SizedBox(height: size.height * 0.03),
-                    const WorkoutCard(
-                      title: 'AB Workout',
-                      exercises: 14,
-                      duration: 20,
-                      imagePath: AssetsData.ab,
-                    ),
-                  ],
-                ),
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(size.width * 0.08),
+                topRight: Radius.circular(size.width * 0.08),
               ),
-            ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(size.width * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: size.height * 0.01),
+                  Text(
+                    'What Do You Want to Train',
+                    style: TextStyle(
+                      fontSize: size.width * 0.05,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        WorkoutCard(
+                          title: 'Fullbody Workout',
+                          exercises: 11,
+                          duration: 32,
+                          imagePath: AssetsData.full,
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        WorkoutCard(
+                          title: 'Lowerbody Workout',
+                          exercises: 12,
+                          duration: 40,
+                          imagePath: AssetsData.low,
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        WorkoutCard(
+                          title: 'AB Workout',
+                          exercises: 14,
+                          duration: 20,
+                          imagePath: AssetsData.ab,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            top: size.height * 0.01,
+            child: Container(
+              width: size.width * 0.15,
+              height: size.height * 0.005,
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(size.height * 0.01),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
