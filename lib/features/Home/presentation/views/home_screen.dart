@@ -140,6 +140,10 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Workouts',
           ),
           BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.message),
+            label: 'Chatbot',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.utensils),
             label: 'Recipes',
           ),

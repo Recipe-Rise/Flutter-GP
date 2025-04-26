@@ -1,9 +1,8 @@
-// lib/core/utils/app_navigator.dart
-
 import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
 import 'package:fitfork_gp/features/Profile/presentation/views/profile_screen.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/views/recipes_screen.dart';
 import 'package:fitfork_gp/features/Workout/presentation/views/workout_screen.dart';
+import 'package:fitfork_gp/features/chat/presentation/views/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigator {
@@ -25,15 +24,18 @@ class AppNavigator {
         break;
       case 1:
         routeName = '/workouts';
-        // Replace with your workouts screen
         screen = const WorkoutsScreen();
         break;
       case 2:
-        routeName = '/recipes';
-        // Replace with your recipes screen
-        screen = const RecipesScreen();
+        routeName = '/chat';
+        screen = const ChatScreen();
         break;
       case 3:
+        routeName = '/recipes';
+        screen = const RecipesScreen();
+        break;
+
+      case 4:
         routeName = '/profile';
         screen = const ProfileScreen();
         break;

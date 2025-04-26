@@ -19,4 +19,5 @@ class AssetsData {
   static const full = 'assets/images/full.png';
   static const first = 'assets/images/first.png';
   static const low = 'assets/images/low.png';
+  static const pan = 'assets/images/pan.png';
 }

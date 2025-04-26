@@ -1,6 +1,8 @@
+import 'package:fitfork_gp/core/utils/app_navigator.dart';
 import 'package:fitfork_gp/core/utils/assets.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WorkoutsScreen extends StatelessWidget {
   const WorkoutsScreen({super.key});
@@ -28,6 +30,42 @@ class WorkoutsScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        elevation: 8,
+        selectedItemColor: const Color(0xFF1A75FF),
+        unselectedItemColor: Colors.grey,
+        currentIndex: 1, // Workouts tab is index 1
+        onTap: (index) {
+          if (index != 1) {
+            // Only navigate if not already on Workouts tab
+            AppNavigator.navigateToTabScreen(context, index);
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.dumbbell),
+            label: 'Workouts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.message),
+            label: 'Chatbot',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.utensils),
+            label: 'Recipes',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.user),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
