@@ -5,7 +5,6 @@ import 'package:fitfork_gp/core/services/gemini_service.dart';
 abstract class BaseChatViewModel extends ChangeNotifier {
   final List<ChatMessage> _messages = [];
   bool _isLoading = false;
-  // Make geminiService protected (accessible to subclasses) by removing the underscore
   final GeminiService geminiService = GeminiService();
 
   List<ChatMessage> get messages => List.unmodifiable(_messages);
@@ -30,6 +29,8 @@ abstract class BaseChatViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final response = await getAIResponse(text);
 
       final aiMessage = ChatMessage(

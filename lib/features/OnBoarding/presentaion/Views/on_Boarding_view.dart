@@ -1,4 +1,5 @@
 import 'package:fitfork_gp/core/utils/assets.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
 import 'package:fitfork_gp/features/OnBoarding/data/models/onboarding_item.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_indicator.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_page.dart';
@@ -97,9 +98,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => BlocProvider(
-                    create: (context) => OnboardingCubit(),
-                    child: GoalSelectionScreen(),
-                  ),
+                      create: (context) => OnboardingCubit(),
+                      child: HomeScreen(
+                          firstName: "firstName", bmi: 12.0, bmr: 2500)
+                      // GoalSelectionScreen(),
+                      ),
                 ),
               );
             }
