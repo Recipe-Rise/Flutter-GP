@@ -19,7 +19,6 @@ abstract class BaseChatViewModel extends ChangeNotifier {
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
-    // Add user message
     final userMessage = ChatMessage(
       text: text,
       isUser: true,
@@ -27,15 +26,12 @@ abstract class BaseChatViewModel extends ChangeNotifier {
     );
     addMessage(userMessage);
 
-    // Set loading state
     _isLoading = true;
     notifyListeners();
 
     try {
-      // Get AI response
       final response = await getAIResponse(text);
 
-      // Add AI message
       final aiMessage = ChatMessage(
         text: response,
         isUser: false,
@@ -43,7 +39,6 @@ abstract class BaseChatViewModel extends ChangeNotifier {
       );
       addMessage(aiMessage);
     } catch (e) {
-      // Handle error
       final errorMessage = ChatMessage(
         text: 'Sorry, I encountered an error. Please try again.',
         isUser: false,
@@ -51,7 +46,6 @@ abstract class BaseChatViewModel extends ChangeNotifier {
       );
       addMessage(errorMessage);
     } finally {
-      // Reset loading state
       _isLoading = false;
       notifyListeners();
     }

@@ -35,9 +35,7 @@ class ProfileScreen extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
-                onPressed: () {
-                  // Add settings functionality
-                },
+                onPressed: () {},
               ),
             ],
           ),

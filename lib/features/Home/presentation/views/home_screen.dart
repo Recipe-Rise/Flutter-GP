@@ -1,5 +1,8 @@
 import 'package:fitfork_gp/core/utils/app_navigator.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/calories_tracking_screen.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/sleep_insights_screen.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/water_intake_screen.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/activity_status_header.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/bmi_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/calories_card.dart';
@@ -81,6 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       flex: 1,
                       child: WaterIntakeCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WaterIntakeScreen(),
+                            ),
+                          );
+                        },
                         waterIntakeInML: totalWaterIntake,
                         timeUpdates: waterIntakeUpdates,
                       ),
@@ -91,9 +102,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const SleepCard(hours: "8", minutes: "20"),
+                          SleepCard(
+                            hours: "8",
+                            minutes: "20",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SleepInsightsScreen()),
+                              );
+                            },
+                          ),
                           const SizedBox(height: 16),
                           CaloriesCard(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CaloriesTrackingScreen()),
+                              );
+                            },
                             bmr: widget.bmr,
                             consumedCalories: widget.bmr - 230,
                           ),
@@ -117,7 +147,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: (index) {
           if (index != _selectedIndex) {
-            // Use AppNavigator to handle navigation
             final args = {
               'firstName': widget.firstName,
               'bmi': widget.bmi,

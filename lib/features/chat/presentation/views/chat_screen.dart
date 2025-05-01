@@ -80,10 +80,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             ),
         child: Column(
           children: [
-            // Modified tab selector without underline
             Container(
               height: 60,
-              color: Colors.transparent, // Removed colored background
+              color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: _categories.map((category) {

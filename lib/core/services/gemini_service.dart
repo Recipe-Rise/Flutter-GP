@@ -6,7 +6,6 @@ class GeminiService {
   late final GenerativeModel model;
 
   GeminiService() {
-    // Initialize the model
     model = GenerativeModel(
       model: 'gemini-1.5-flash',
       apiKey: apiKey,
