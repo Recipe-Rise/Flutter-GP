@@ -1,5 +1,6 @@
 import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
 import 'package:fitfork_gp/features/Profile/presentation/views/profile_screen.dart';
+import 'package:fitfork_gp/features/Profile2/presentation/views/profile_screen2.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/views/recipes_screen.dart';
 import 'package:fitfork_gp/features/Workout/presentation/views/workout_screen.dart';
 import 'package:fitfork_gp/features/chat/presentation/views/chat_screen.dart';
@@ -37,7 +38,7 @@ class AppNavigator {
 
       case 4:
         routeName = '/profile';
-        screen = const ProfileScreen();
+        screen = const ProfileScreen2();
         break;
       default:
         return;
