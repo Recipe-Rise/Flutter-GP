@@ -54,6 +54,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
         children: [
           Expanded(
             child: TextField(
+              cursorColor: Color(0xff27547F),
               controller: _textController,
               decoration: InputDecoration(
                 hintText: widget.hintText,
@@ -83,7 +84,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
           Container(
             decoration: BoxDecoration(
               color: _isComposing && !widget.isLoading
-                  ? Color(0xff98B9FE)
+                  ? Color(0xff27547F)
                   : Colors.grey.shade400,
               shape: BoxShape.circle,
             ),

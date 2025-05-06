@@ -5,7 +5,6 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/hydration_progress
 import 'package:fitfork_gp/features/Home/presentation/widgets/water_log_item.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/weekly_progress_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class WaterIntakeScreen extends StatefulWidget {
   const WaterIntakeScreen({Key? key}) : super(key: key);

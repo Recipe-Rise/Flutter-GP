@@ -21,7 +21,7 @@ class ChatMessageBubble extends StatelessWidget {
         children: [
           if (!message.isUser && showAvatar)
             CircleAvatar(
-              backgroundColor: Color(0xff98B9FE),
+              backgroundColor: Color(0xff27547F),
               child: const Icon(Icons.fitness_center, color: Colors.white),
             ),
           if (!message.isUser && !showAvatar) const SizedBox(width: 40),
@@ -40,7 +40,7 @@ class ChatMessageBubble extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: message.isUser
-                        ? Color(0xff98B9FE)
+                        ? Color(0xff509DE3)
                         : Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(20),
                   ),

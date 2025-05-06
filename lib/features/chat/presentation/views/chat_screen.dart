@@ -53,16 +53,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         backgroundColor: kPrimaryColor,
         elevation: 0,
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.center,
-              colors: [
-                Color.fromARGB(255, 209, 193, 214),
-                Color.fromARGB(255, 143, 170, 205),
-              ],
-            ),
-          ),
+          decoration: const BoxDecoration(gradient: kButtonColor),
         ),
       ),
       body: Container(
@@ -103,7 +94,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                               ? FontWeight.bold
                               : FontWeight.normal,
                           color: _selectedCategory == index
-                              ? Theme.of(context).colorScheme.primary
+                              ? Color(0xff27547F)
                               : Colors.grey.shade600,
                         ),
                       ),
