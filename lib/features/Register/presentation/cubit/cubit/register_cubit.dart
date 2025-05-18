@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:fitfork_gp/features/Register/data/Models/register_data.dart';
+import 'package:fitfork_gp/shared/cubit/appCubit.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'register_state.dart';
@@ -7,13 +10,16 @@ part 'register_state.dart';
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitial());
 
-  // Private field
-  final RegisterData _registerData = RegisterData(
+
+  static RegisterCubit get(context) => BlocProvider.of(context);
+
+  late RegisterData _registerData = RegisterData(
     firstName: " ",
     lastName: " ",
     email: " ",
     password: " ",
     dateOfBirth: DateTime.now(),
+    age: 0,
   );
 
   // Public getter for _registerData
@@ -81,6 +87,10 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   void updateGoal(String goal) {
     _registerData.goal = goal;
+  }
+
+  void calculateAge (int age ){
+    _registerData = age as RegisterData ;
   }
 
   // Calculate BMI

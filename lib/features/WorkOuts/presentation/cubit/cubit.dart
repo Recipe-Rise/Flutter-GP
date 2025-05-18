@@ -14,6 +14,7 @@ class WorkOutCubit extends Cubit<WorkOutsStates>{
 
   List<GetAllExcercises> exercisesList = [];
 
+
   GetAllExcercises? getAllExcercises;
 
   void getAllExcercisesData() {
@@ -37,4 +38,54 @@ class WorkOutCubit extends Cubit<WorkOutsStates>{
       emit(WorkOutsErrorState(error.toString()));
     });
   }
+
+  GetAllExcercises? getAllExcercisesForBodyPart;
+
+  List<GetAllExcercises> bodyPartExercisesList = [];
+
+  void getAllExcercisesForBodyPartData({
+    required String bodyPart
+}) {
+
+    emit(WorkOutGetAllExcercisesBodyPartLoadingState());
+
+    DioHelper.getData(
+      url: '$BODYPARTEXERCISES$bodyPart',
+    ).then((value) {
+
+      //getAllExcercisesForBodyPart = GetAllExcercises.fromJson(value?.data);
+
+      bodyPartExercisesList = (value?.data as List<dynamic>)
+          .map((exercise) => GetAllExcercises.fromJson(exercise as Map<String, dynamic>))
+          .toList();
+
+      emit(WorkOutGetAllExcercisesBodyPartSuccessState());
+
+    }).catchError((error) {
+      print(error.toString());
+      emit(WorkOutGetAllExcercisesBodyPartErrorState(error.toString()));
+    });
+  }
+
+
+  List<String> bodyParts = [];
+
+
+  void getBodyParts() {
+
+    emit(WorkOutsBodyPartsLoadingState());
+
+    DioHelper.getData(
+      url: BODYPARTLIST,
+    ).then((value) {
+
+      final bodyParts = (value?.data as List).cast<String>();
+      emit(WorkOutBodyPartsSuccessState(bodyParts));
+
+    }).catchError((error) {
+      print(error.toString());
+      emit(WorkOutsBodyPartsErrorState(error.toString()));
+    });
+  }
+
 }

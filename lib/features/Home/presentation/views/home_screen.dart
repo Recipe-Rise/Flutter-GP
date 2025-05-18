@@ -5,8 +5,13 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/bmi_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/calories_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/sleep_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/water_intake_card.dart';
+import 'package:fitfork_gp/shared/cubit/appCubit.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/calories_tracking_screen.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/sleep_insights_screen.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/water_intake_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final String firstName;
@@ -66,11 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                widget.firstName,
+                AppCubit.get(context).getUserData!.name!,
                 style: Styles.textStyle26,
               ),
               const SizedBox(height: 16),
-              BmiCard(bmi: widget.bmi),
+              BmiCard(bmi: double.tryParse(AppCubit.get(context).getUserData?.bmi ?? '') ?? 0.0,),
               const SizedBox(height: 24),
               const ActivityStatusHeader(),
               const SizedBox(height: 16),
@@ -81,6 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       flex: 1,
                       child: WaterIntakeCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WaterIntakeScreen(),
+                            ),
+                          );
+                        },
                         waterIntakeInML: totalWaterIntake,
                         timeUpdates: waterIntakeUpdates,
                       ),
@@ -91,11 +104,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const SleepCard(hours: "8", minutes: "20"),
+                          SleepCard(
+                            hours: "8",
+                            minutes: "20",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SleepInsightsScreen()),
+                              );
+                            },
+                          ),
                           const SizedBox(height: 16),
                           CaloriesCard(
-                            bmr: widget.bmr,
-                            consumedCalories: widget.bmr - 230,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CaloriesTrackingScreen()),
+                              );
+                            },
+                            bmr: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
+                            consumedCalories: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0 - 230,
                           ),
                         ],
                       ),
@@ -117,11 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: (index) {
           if (index != _selectedIndex) {
-            // Use AppNavigator to handle navigation
             final args = {
-              'firstName': widget.firstName,
-              'bmi': widget.bmi,
-              'bmr': widget.bmr,
+              'firstName': AppCubit.get(context).getUserData!.name!,
+              'bmi': double.tryParse(AppCubit.get(context).getUserData?.bmi ?? '') ?? 0.0,
+              'bmr': double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
             };
             AppNavigator.navigateToTabScreen(context, index, arguments: args);
           } else {
@@ -138,6 +169,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.dumbbell),
             label: 'Workouts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.message),
+            label: 'Chatbot',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.utensils),

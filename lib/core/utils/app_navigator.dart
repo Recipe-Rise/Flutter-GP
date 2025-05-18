@@ -1,10 +1,15 @@
 // lib/core/utils/app_navigator.dart
 
 import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
-import 'package:fitfork_gp/features/Profile/presentation/views/profile_screen.dart';
+import 'package:fitfork_gp/features/Login/presentation/cubit/login_cubit.dart';
+import 'package:fitfork_gp/features/Profile/presentation/views/profile_screen2.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/views/recipes_screen.dart';
+import 'package:fitfork_gp/features/WorkOuts/presentation/views/workout_screen.dart';
+import 'package:fitfork_gp/shared/cubit/appCubit.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fitfork_gp/features/chat/presentation/views/chat_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../constants.dart';
 import '../../features/WorkOuts/presentation/views/all_ex_view.dart';
 
 // Import other screens as needed
@@ -23,25 +28,33 @@ class AppNavigator {
       case 0:
         routeName = '/home';
         screen = HomeScreen(
-          firstName: arguments != null ? (arguments as Map)['firstName'] : '',
-          bmi: arguments != null ? (arguments as Map)['bmi'] : 0.0,
-          bmr: arguments != null ? (arguments as Map)['bmr'] : 0.0,
+          firstName: AppCubit.get(context).getUserData!.name!,
+          bmi: double.tryParse(AppCubit.get(context).getUserData?.bmi ?? '') ?? 0.0,
+          bmr: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
         );
         break;
       case 1:
         routeName = '/workouts';
-        // Replace with your workouts screen
-        screen = const WorkOutsView();
+        screen = const WorkoutsScreen();
         break;
+
       case 2:
+        routeName = '/chat';
+        screen = const ChatScreen();
+        break;
+
+      case 3:
         routeName = '/recipes';
-        // Replace with your recipes screen
         screen = const RecipesScreen();
         break;
-      case 3:
+
+      case 4:
         routeName = '/profile';
-        screen = const ProfileScreen();
+        screen = BlocProvider.value(
+        value: appCubit,
+    child: const ProfileScreen2(),);
         break;
+
       default:
         return;
     }

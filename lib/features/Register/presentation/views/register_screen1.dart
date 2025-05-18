@@ -1,3 +1,4 @@
+import 'package:fitfork_gp/features/Login/presentation/views/login_screen.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -176,7 +177,7 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen2(),
+                          builder: (context) => LoginScreen(),
                         ),
                       );
                     },

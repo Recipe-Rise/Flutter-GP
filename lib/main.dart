@@ -1,8 +1,14 @@
+import 'package:fitfork_gp/constants.dart';
+import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
+import 'package:fitfork_gp/features/Login/presentation/cubit/login_cubit.dart';
+import 'package:fitfork_gp/features/Login/presentation/views/login_screen.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/on_Boarding_view.dart';
+import 'package:fitfork_gp/features/Profile/presentation/cubit/cubit.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
 import 'package:fitfork_gp/features/WorkOuts/presentation/cubit/cubit.dart';
 import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
 import 'package:fitfork_gp/shared/network/remote/dio_helper.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -22,10 +28,18 @@ void main() async{
   Widget widget;
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  //user_id = CacheHelper.getData(key: 'user_id');
 
+  //print(user_id);
 
   if(onBoarding != null){
-    widget = RegisterScreen1();
+    // if(user_id != null){
+    //   widget = HomeScreen(
+    //       firstName: '',
+    //       bmi: 20,
+    //       bmr: 20,);
+    // }
+    widget = LoginScreen();
   }
   else {
     widget = OnboardingScreen();
@@ -43,13 +57,28 @@ class FitFork extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit(),),
+        BlocProvider.value(value: appCubit,),
         BlocProvider(create: (BuildContext context) => RegisterCubit(),),
-        BlocProvider(create: (BuildContext context) => WorkOutCubit()..getAllExcercisesData(),),
+        BlocProvider(create: (BuildContext context) => WorkOutCubit(),),
+        BlocProvider(create: (BuildContext context) => LoginCubit()),
+        BlocProvider(create: (BuildContext context) => ProfileCubit()),
+
+
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context, state) {},
         builder: (context,state) {
+          // if(startWidget is HomeScreen){
+          //   return GetMaterialApp(
+          //     debugShowCheckedModeBanner: false,
+          //     theme: ThemeData().copyWith(scaffoldBackgroundColor: Colors.white),
+          //     home : HomeScreen(
+          //         firstName: LoginCubit.get(context).loginModel?.name ?? 'Guest',
+          //         bmi: 20,
+          //         bmr: 20
+          //     ),
+          //   );
+          // }
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData().copyWith(scaffoldBackgroundColor: Colors.white),

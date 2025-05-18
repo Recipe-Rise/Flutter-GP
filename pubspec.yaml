@@ -45,6 +45,9 @@ dependencies:
   percent_indicator: ^4.2.4
   shared_preferences: ^2.2.3
   smooth_page_indicator: ^1.2.0+3
+  generative_ai_dart: ^0.1.2
+  google_generative_ai: ^0.2.3
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_lints: ^4.0.0

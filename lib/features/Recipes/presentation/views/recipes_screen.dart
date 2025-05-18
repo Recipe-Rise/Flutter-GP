@@ -22,7 +22,7 @@ class RecipesScreen extends StatefulWidget {
 }
 
 class _RecipesScreenState extends State<RecipesScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +133,10 @@ class _RecipesScreenState extends State<RecipesScreen> {
         BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.dumbbell),
           label: 'Workouts',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(FontAwesomeIcons.message),
+          label: 'Chatbot',
         ),
         BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.utensils),

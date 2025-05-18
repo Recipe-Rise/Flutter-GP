@@ -34,11 +34,9 @@ class BmiCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Access the RegisterCubit
     final registerCubit = context.read<RegisterCubit>();
     final registerData = registerCubit.registerData;
 
-    // Use provided BMI or calculate it from registerData
     final calculatedBmi = bmi ?? registerCubit.calculateBMI();
 
     return Card(

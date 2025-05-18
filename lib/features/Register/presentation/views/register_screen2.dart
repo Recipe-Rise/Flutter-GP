@@ -19,6 +19,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
   final TextEditingController _heightController = TextEditingController();
   String? _selectedGender;
   DateTime _selectedDate = DateTime.now();
+  late int _calcAge;
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +131,15 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                               if (pickedDate != null) {
                                 setState(() {
                                   _selectedDate = pickedDate;
+
+                                  final DateTime today = DateTime.now();
+                                  int age = today.year - pickedDate.year;
+                                  if (today.month < pickedDate.month ||
+                                      (today.month == pickedDate.month && today.day < pickedDate.day)) {
+                                    age--;
+                                  }
+                                  print('Calculated Age: $age');
+                                  _calcAge = age;
                                 });
                               }
                             },
