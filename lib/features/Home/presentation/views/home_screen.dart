@@ -8,6 +8,7 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/bmi_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/calories_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/sleep_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/water_intake_card.dart';
+import 'package:fitfork_gp/features/Step%20Counter/step_counter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -127,6 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             bmr: widget.bmr,
                             consumedCalories: widget.bmr - 230,
                           ),
+                          StepCounterWidget(),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
