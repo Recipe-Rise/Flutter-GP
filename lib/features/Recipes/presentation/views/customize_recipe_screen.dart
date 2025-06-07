@@ -1,7 +1,8 @@
 import 'package:fitfork_gp/features/Recipes/presentation/widgets/choice_ships_grid.dart';
-import 'package:fitfork_gp/features/Recipes/presentation/widgets/choice_ships_row.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/widgets/range_slider_with_labels.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/widgets/slider_with_labels.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/widgets/recipes_count_card.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/widgets/health_options_card.dart';
 import 'package:fitfork_gp/features/Register/presentation/widgets/custom_gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
@@ -26,9 +27,10 @@ class CustomizeRecipeScreen extends StatefulWidget {
 class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
   final RecipeRepository _repository = RecipeRepository();
   final List<String> _selectedIngredients = [];
-  String _selectedMealType = '';
   double _preparationTime = 30;
   RangeValues _caloriesRange = const RangeValues(100, 800);
+  int _recipesCount = 5;
+  bool _isDiabetesFriendly = false;
 
   final List<String> _breakfastIngredients = [
     'Eggs',
@@ -66,8 +68,6 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
     'Soup'
   ];
 
-  final List<String> _mealTypes = ['Quick & Easy', 'Healthy', 'Gourmet'];
-
   List<String> get _ingredientsForCategory {
     switch (widget.category) {
       case 'breakfast':
@@ -98,7 +98,7 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
     final List<Recipe> filteredRecipes = _repository.getFilteredRecipes(
       category: widget.category,
       ingredients: _selectedIngredients,
-      mealType: _selectedMealType,
+      mealType: '',
       maxPrepTime: _preparationTime.toInt(),
       caloriesRange: [_caloriesRange.start.toInt(), _caloriesRange.end.toInt()],
     );
@@ -113,6 +113,7 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           getCategoryTitle(),
           style: Styles.textStyle20.copyWith(fontWeight: FontWeight.w600),
@@ -128,7 +129,6 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Category Title Card (replacing header image)
               Container(
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.only(bottom: 24),
@@ -154,10 +154,25 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
                   ],
                 ),
               ),
-
-              // Ingredients Section
+              const SizedBox(height: 24),
+              RecipesCountCard(
+                initialCount: _recipesCount,
+                minCount: 1,
+                maxCount: 10,
+                onCountChanged: (count) {
+                  setState(() => _recipesCount = count);
+                },
+              ),
+              const SizedBox(height: 24),
+              HealthOptionsCard(
+                initialDiabetesFriendly: _isDiabetesFriendly,
+                onDiabetesFriendlyChanged: (isDiabetesFriendly) {
+                  setState(() => _isDiabetesFriendly = isDiabetesFriendly);
+                },
+              ),
+              const SizedBox(height: 24),
               _buildSectionHeader(
-                icon: FontAwesomeIcons.carrot,
+                icon: Icons.restaurant,
                 title: 'Ingredients',
               ),
               const SizedBox(height: 12),
@@ -171,23 +186,6 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
                 },
               ),
               const SizedBox(height: 24),
-
-              // Meal Type Section
-              _buildSectionHeader(
-                icon: FontAwesomeIcons.utensils,
-                title: 'Meal Type',
-              ),
-              const SizedBox(height: 12),
-              ChoiceChipsRow(
-                options: _mealTypes,
-                selectedOption: _selectedMealType,
-                onSelectionChanged: (mealType) {
-                  setState(() => _selectedMealType = mealType);
-                },
-              ),
-              const SizedBox(height: 24),
-
-              // Preparation Time Section
               _buildSectionHeader(
                 icon: FontAwesomeIcons.clock,
                 title: 'Preparation Time',
@@ -204,8 +202,6 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
                 icon: FontAwesomeIcons.clock,
               ),
               const SizedBox(height: 24),
-
-              // Calories Range Section
               _buildSectionHeader(
                 icon: FontAwesomeIcons.fire,
                 title: 'Calories Range',
@@ -224,8 +220,6 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
                 endIcon: FontAwesomeIcons.dumbbell,
               ),
               const SizedBox(height: 32),
-
-              // Find Recipes Button
               Center(
                 child: CustomGradientButton(
                   text: 'Find Perfect Recipes',
