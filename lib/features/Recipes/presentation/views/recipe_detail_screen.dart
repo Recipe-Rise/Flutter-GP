@@ -1,9 +1,12 @@
 import 'package:fitfork_gp/features/Recipes/data/models/recipe.dart';
+import 'package:fitfork_gp/features/Recipes/data/models/nutrition_info.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/widgets/nutrition_section_widget.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/widgets/recipe_header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class RecipeDetailScreen extends StatelessWidget {
+class RecipeDetailScreen extends StatefulWidget {
   final Recipe recipe;
 
   const RecipeDetailScreen({
@@ -12,11 +15,19 @@ class RecipeDetailScreen extends StatelessWidget {
   });
 
   @override
+  State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
+}
+
+class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
+  bool isFavorite = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
-          recipe.name,
+          widget.recipe.name,
           style: Styles.textStyle20.copyWith(fontWeight: FontWeight.w600),
         ),
         leading: IconButton(
@@ -27,7 +38,6 @@ class RecipeDetailScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.favorite_border),
             onPressed: () {
-              // Save recipe as favorite functionality
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Recipe saved to favorites")),
               );
@@ -39,72 +49,74 @@ class RecipeDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Recipe image placeholder
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.grey.shade200,
-              child: Center(
-                child: Icon(
-                  FontAwesomeIcons.utensils,
-                  color: Colors.grey.shade400,
-                  size: 64,
-                ),
-              ),
+            RecipeHeaderWidget(
+              recipe: widget.recipe,
+              isFavorite: isFavorite,
+              onFavoriteToggle: () {
+                setState(() {
+                  isFavorite = !isFavorite;
+                });
+              },
+              onBackPressed: () => Navigator.pop(context),
             ),
-
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Recipe info row
                   Row(
                     children: [
                       _buildInfoChip(
                         Icons.local_fire_department,
                         Colors.orange.shade700,
-                        "${recipe.calories} kcal",
+                        "${widget.recipe.calories} kcal",
                       ),
                       const SizedBox(width: 12),
                       _buildInfoChip(
                         Icons.access_time,
                         Colors.blue.shade700,
-                        "${recipe.prepTimeMinutes} min",
+                        "${widget.recipe.prepTimeMinutes} min",
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 24),
-
-                  // Ingredients section
                   Text(
-                    "Ingredients",
+                    " 🥘 Ingredients",
                     style: Styles.textStyle20
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
-                  ...recipe.ingredients
+                  ...widget.recipe.ingredients
                       .map((ingredient) => _buildListItem(ingredient)),
-
                   const SizedBox(height: 24),
-
-                  // Instructions section
                   Text(
-                    "Instructions",
+                    " 📝  Instructions",
                     style: Styles.textStyle20
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
                   ...List.generate(
-                    recipe.instructions.length,
+                    widget.recipe.instructions.length,
                     (index) => _buildNumberedListItem(
                       index + 1,
-                      recipe.instructions[index],
+                      widget.recipe.instructions[index],
                     ),
                   ),
-
                   const SizedBox(height: 32),
+                  Text(
+                    ' 📊  Nutrition Info',
+                    style: Styles.textStyle20
+                        .copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  NutritionSectionWidget(
+                    nutritionInfo: NutritionInfo(
+                      '12g',
+                      calories: widget.recipe.calories ?? 400,
+                      protein: '25g',
+                      carbs: '30g',
+                      fat: '15g',
+                    ),
+                  ),
                 ],
               ),
             ),

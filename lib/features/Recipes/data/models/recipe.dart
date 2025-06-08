@@ -18,6 +18,8 @@ class Recipe {
     required this.calories,
     required this.prepTimeMinutes,
     required this.category,
-    this.tags = const [], // Default to empty list if not provided
+    this.tags = const [],
   });
+
+  get nutritionInfo => null;
 }
