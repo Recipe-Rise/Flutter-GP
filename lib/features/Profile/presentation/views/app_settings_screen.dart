@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fitfork_gp/features/Profile/presentation/cubit/cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../Login/presentation/views/login_screen.dart';
 import '../widgets/quick_action_item.dart';
 
 
@@ -49,7 +50,11 @@ class AppSettingsScreen extends StatelessWidget {
               iconColor: Colors.red,
               backgroundColor: const Color(0xFFFFF0F0),
               onTap: (){
-                ProfileCubit.get(context).LogOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (Route<dynamic> route) => false, // This removes all previous routes
+                );
               },
             ),
 

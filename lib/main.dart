@@ -31,24 +31,24 @@ void main() async{
 
   Widget widget;
 
-  // bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   //user_id = CacheHelper.getData(key: 'user_id');
 
   //print(user_id);
 
-  // if(onBoarding != null){
-  //   // if(user_id != null){
-  //   //   widget = HomeScreen(
-  //   //       firstName: '',
-  //   //       bmi: 20,
-  //   //       bmr: 20,);
-  //   // }
-  //   widget = LoginScreen();
-  // }
-  // else {
-  //   widget = OnboardingScreen();
-  // }
-  runApp(FitFork(startWidget : SplashView()));
+  if(onBoarding != null){
+    // if(user_id != null){
+    //   widget = HomeScreen(
+    //       firstName: '',
+    //       bmi: 20,
+    //       bmr: 20,);
+    // }
+    widget = LoginScreen();
+  }
+  else {
+    widget = OnboardingScreen();
+  }
+  runApp(FitFork(startWidget : widget));
 }
 
 
@@ -61,7 +61,7 @@ class FitFork extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: appCubit,),
+        BlocProvider(create: (BuildContext context) => AppCubit()..GetAllUserData(),),
         BlocProvider(create: (BuildContext context) => RegisterCubit(),),
         BlocProvider(create: (BuildContext context) => WorkOutCubit(),),
         BlocProvider(create: (BuildContext context) => LoginCubit()),

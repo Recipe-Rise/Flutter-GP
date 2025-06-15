@@ -28,7 +28,7 @@ class AppNavigator {
       case 0:
         routeName = '/home';
         screen = HomeScreen(
-          firstName: AppCubit.get(context).getUserData!.name!,
+          // firstName: AppCubit.get(context).getUserData!.name!,
           // bmi: double.tryParse(AppCubit.get(context).getUserData?.bmi ?? '') ?? 0.0,
           // bmr: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
         );

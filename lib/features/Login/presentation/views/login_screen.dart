@@ -66,7 +66,7 @@ class _LoginForm extends StatelessWidget {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               Navigator.pushAndRemoveUntil(context,
                   MaterialPageRoute(builder : (context)=> HomeScreen(
-                      firstName: state.loginModel.name,
+                      // firstName: state.loginModel.name,
                       )),
                       (Route<dynamic> route) => false);
 

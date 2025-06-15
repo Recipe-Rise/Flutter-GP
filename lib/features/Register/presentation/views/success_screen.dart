@@ -52,7 +52,9 @@ class SuccessScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => HomeScreen(
-                        firstName: firstName,
+                        firstName: RegisterCubit.get(context).registerModel?.name ?? '',
+                        bmi: double.tryParse(RegisterCubit.get(context).registerModel?.bmi ?? '') ?? 0.0,
+                        bmr: double.tryParse(RegisterCubit.get(context).registerModel?.bmr ?? '') ?? 0.0,
                       ),
                     ),
                   );
