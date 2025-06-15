@@ -61,7 +61,7 @@ class FitFork extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => AppCubit()..GetAllUserData(),),
+        BlocProvider(create: (BuildContext context) => AppCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit(),),
         BlocProvider(create: (BuildContext context) => WorkOutCubit(),),
         BlocProvider(create: (BuildContext context) => LoginCubit()),

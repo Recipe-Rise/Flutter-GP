@@ -152,11 +152,13 @@ class _CustomizeRecipeScreenState extends State<CustomizeRecipeScreen> {
                           size: 24,
                         ),
                         const SizedBox(width: 12),
-                        Text(
-                          'Customize your ${widget.category} recipes',
-                          style: Styles.textStyle16.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blue.shade800,
+                        Expanded(
+                          child: Text(
+                            'Customize your ${widget.category} recipes',
+                            style: Styles.textStyle16.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blue.shade800,
+                            ),
                           ),
                         ),
                       ],

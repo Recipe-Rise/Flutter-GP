@@ -426,21 +426,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // Get current calorie data
                                   final calorieData = await _cacheHelper.getCalorieData(bmr);
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CaloriesTrackingScreen(
-                                        bmr: bmr,
-                                        consumedCalories: calorieData['consumed']!,
-                                        remainingCalories: calorieData['remaining']!,
-                                      ),
-                                    ),
-                                  ).then((_) {
-                                    // Refresh the home screen when returning from calorie tracking
-                                    setState(() {});
-                                  });
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => CaloriesTrackingScreen(
+                                  //       bmr: bmr,
+                                  //       consumedCalories: calorieData['consumed']!,
+                                  //       remainingCalories: calorieData['remaining']!,
+                                  //     ),
+                                  //   ),
+                                  // ).then((_) {
+                                  //   // Refresh the home screen when returning from calorie tracking
+                                  //   setState(() {});
+                                  // });
+
                                 },
                                 bmr: bmr,
+                                consumedCalories: 0,
                               ),
                               const SizedBox(height: 16),
                               const StepCounterWidget(),

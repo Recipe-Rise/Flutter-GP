@@ -378,11 +378,15 @@ import '../../../../shared/network/local/cache_helper.dart';
 class CaloriesCard extends StatelessWidget {
   final double bmr;
   final VoidCallback onTap;
+   final double consumedCalories; // still required for fallback
+
 
   const CaloriesCard({
     super.key,
     required this.bmr,
     required this.onTap,
+    required this.consumedCalories,
+
   });
 
   Future<Map<String, double>> _fetchCalorieData() async {

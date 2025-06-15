@@ -1,11 +1,11 @@
 import 'package:fitfork_gp/constants.dart';
-import 'package:fitfork_gp/features/Profile/presentation/views/edit_profile_screen.dart';
 import 'package:fitfork_gp/features/Register/presentation/cubit/cubit/register_state.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/cubit/register_cubit.dart';
+import '../widgets/custom_gradient_button.dart';
 
 class PasswordInputScreen extends StatefulWidget {
   const PasswordInputScreen({Key? key}) : super(key: key);

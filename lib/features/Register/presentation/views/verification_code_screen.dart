@@ -86,7 +86,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                   const SizedBox(height: 32),
                   TextFormField(
                     controller: _codeController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     maxLength: 6,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
