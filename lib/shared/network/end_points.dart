@@ -7,3 +7,5 @@ const BODYPARTEXERCISES = 'exercises/bodyPart/';
 const USERDATA ='user';
 
 const LOGIN = 'login';
+
+const MLMODEL = 'ml_model';

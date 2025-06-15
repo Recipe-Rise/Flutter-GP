@@ -26,7 +26,7 @@ class SliderWithLabels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final defaultActiveColor = activeColor ?? theme.primaryColor;
+    final defaultActiveColor = activeColor ?? const Color.fromARGB(255, 7, 81, 145);
     final defaultInactiveColor = inactiveColor ?? Colors.grey.shade300;
 
     return Container(
@@ -71,15 +71,18 @@ class SliderWithLabels extends StatelessWidget {
           // Slider with min/max labels
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
-              activeTrackColor: defaultActiveColor,
-              inactiveTrackColor: defaultInactiveColor,
-              thumbColor: Colors.white,
+              activeTrackColor: const Color(0xFF74b9ff),
+              inactiveTrackColor: const Color(0xFFe9ecef),
+              valueIndicatorColor: Color.fromARGB(255, 7, 81, 145),
+              thumbColor: const Color(0xFF74b9ff),
               thumbShape: const RoundSliderThumbShape(
                 enabledThumbRadius: 10,
                 elevation: 4,
               ),
-              overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
-              overlayColor: defaultActiveColor.withOpacity(0.2),
+              
+              overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
+              overlayColor: const Color(0xFF74b9ff).withOpacity(0.2),
+
               trackHeight: 4,
             ),
             child: Slider(

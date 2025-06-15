@@ -39,4 +39,28 @@ class CacheHelper {
   {
     return await sharedPreferences.remove(key);
   }
+
+
+  Future<void> saveRemainingCalories(double remainingCalories) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('remainingCalories', remainingCalories);
+    prefs.setInt('lastUpdateTimestamp', DateTime.now().millisecondsSinceEpoch);
+  }
+
+  Future<double> getRemainingCalories(double bmr) async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastUpdateTimestamp = prefs.getInt('lastUpdateTimestamp') ?? 0;
+    final currentTimestamp = DateTime.now().millisecondsSinceEpoch;
+
+    // Check if 24 hours have passed
+    if (currentTimestamp - lastUpdateTimestamp >= 24 * 60 * 60 * 1000) {
+      // Reset remaining calories to BMR
+      await saveRemainingCalories(bmr);
+      return bmr;
+    }
+
+    // Return saved remaining calories
+    return prefs.getDouble('remainingCalories') ?? bmr;
+  }
+
 }

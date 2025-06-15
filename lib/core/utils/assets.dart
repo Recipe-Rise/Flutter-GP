@@ -36,4 +36,8 @@ class AssetsData {
   static const ch = 'assets/images/ch.svg';
   static const ch2 = 'assets/images/ch2.png';
 
+
+  static const myImage = 'assets/images/IMG_0830.jpg';
+
+
 }

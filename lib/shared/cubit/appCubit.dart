@@ -18,6 +18,7 @@ class AppCubit extends Cubit<AppStates> {
 
   bool isDark = false;
 
+
   void ChangeAppMode() {
     isDark = !isDark;
     emit(AppChangeModeState());
@@ -44,6 +45,9 @@ class AppCubit extends Cubit<AppStates> {
       print('Parsed User ID: ${getUserData?.userId}');
       print('Parsed User Name: ${getUserData?.name}');
 
+      remainingCalories = double.tryParse(getUserData?.bmr ?? '0') ?? 0.0;
+
+      print(remainingCalories);
 
       emit(AppSuccessUserDataState(getUserData!));
 
@@ -52,4 +56,5 @@ class AppCubit extends Cubit<AppStates> {
       emit(AppErrorUserDataState(error.toString()));
     });
   }
+
 }

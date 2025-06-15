@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 
 class DetailedBmiScreen extends StatelessWidget {
   final double bmi;
-  final double weight;
-  final double height;
+  final String weight;
+  final String height;
   final int age;
   final String gender;
 

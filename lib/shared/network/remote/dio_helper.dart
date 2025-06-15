@@ -4,6 +4,7 @@ class DioHelper {
 
   static Dio? dio;
   static Dio? dio2;
+  static Dio? dio3;
 
   static const String rapidApiKey = '95109f84c7msh5e4f5d6189b4185p1e8378jsndc1966219385';
 
@@ -21,7 +22,7 @@ class DioHelper {
 
     dio2 = Dio(
       BaseOptions(
-        baseUrl: 'http://10.0.2.2:5000/api/',
+        baseUrl: 'https://recipe-rise.azurewebsites.net/api/',
         receiveDataWhenStatusError: true,
       )
     );
@@ -32,8 +33,104 @@ class DioHelper {
       responseBody: true,
     ));
 
+    dio3 = Dio(
+        BaseOptions(
+          baseUrl: 'https://recipe-rise.azurewebsites.net/',
+          receiveDataWhenStatusError: true,
+        )
+    );
+
+    dio3?.interceptors.add(LogInterceptor(
+      request: true,
+      requestBody: true,
+      responseBody: true,
+    ));
+
   }
 
+  static Future<Response?> postData2Image({
+    required String url,
+    required Map<String, dynamic> data,
+  }) async {
+
+    dio2?.options.headers = {
+      'User-Agent': 'PostmanRuntime/7.43.3',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+      'Content-Type' : 'multipart/form-data',
+    };
+
+    FormData formData = FormData.fromMap(data);
+
+    return await dio2?.post(
+      url,
+      data: formData,
+    );
+  }
+
+  /* Recommendation system dio called dio3 */
+
+  static Future<Response?> postData3({
+    required String url,
+    required Map<String, dynamic> data,
+  }) async {
+
+    dio3?.options.headers = {
+      'User-Agent': 'PostmanRuntime/7.43.3',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    final encodedData = data.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value.toString())}').join('&');
+
+    return await dio3?.post(
+      url,
+      data: encodedData,
+    );
+  }
+
+  static Future<Response?> getData3({
+    required String url,
+    Map<String, dynamic>? query,
+  }) async {
+
+    dio3?.options.headers = {
+      'User-Agent': 'PostmanRuntime/7.43.3',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+    };
+
+    return await dio3?.get(
+      url,
+      queryParameters: query,
+    );
+  }
+
+
+  static Future<Response?> postDataForHistory3({
+    required String url,
+    Map<String, dynamic>? data,
+  }) async {
+
+    dio3?.options.headers = {
+      'User-Agent': 'PostmanRuntime/7.43.3',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    final encodedData = data?.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value.toString())}').join('&');
+
+    return await dio3?.post(
+      url,
+      data: encodedData,
+    );
+  }
 
   /*Work out api methods*/
 
@@ -169,3 +266,4 @@ class DioHelper {
   //
 
 
+// "hudbvfh","shjkdgs"

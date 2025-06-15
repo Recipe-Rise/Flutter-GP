@@ -1,5 +1,7 @@
+import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
 import 'package:fitfork_gp/features/Register/presentation/widgets/custom_gradient_button.dart';
 import 'package:fitfork_gp/features/onbparding2/presentation/cubits/onboarding_cubit.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/views/activity_level_screen.dart';
 import 'package:fitfork_gp/features/onbparding2/presentation/widgets/progress_indicator_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +30,7 @@ class HelpScreen extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () =>
-                  context.read<OnboardingCubit>().goToPreviousScreen(context),
+                  Navigator.pop(context),
             ),
           ),
           body: Padding(
@@ -63,8 +65,14 @@ class HelpScreen extends StatelessWidget {
                 Center(
                   child: CustomGradientButton(
                     text: 'Next',
-                    onPressed: () =>
-                        context.read<OnboardingCubit>().goToNextScreen(context),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ActivityLevelScreen(),
+                        ),
+                      );
+                    },
                     gradient: const LinearGradient(
                       colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
                       begin: Alignment.centerLeft,

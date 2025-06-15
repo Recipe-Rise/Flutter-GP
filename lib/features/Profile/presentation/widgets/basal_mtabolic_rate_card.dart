@@ -19,7 +19,7 @@ class BasalMetabolicRateCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.indigo.withOpacity(0.2),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

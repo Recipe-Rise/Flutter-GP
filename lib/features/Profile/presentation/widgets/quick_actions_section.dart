@@ -1,5 +1,6 @@
 import 'package:fitfork_gp/features/Profile/presentation/cubit/cubit.dart';
 import 'package:flutter/material.dart';
+import '../views/app_settings_screen.dart';
 import 'quick_action_item.dart';
 
 class QuickActionsSection extends StatelessWidget {
@@ -32,22 +33,28 @@ class QuickActionsSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const QuickActionItem(
+          QuickActionItem(
             icon: Icons.settings,
             label: 'App Settings',
             iconColor: Colors.purple,
-            backgroundColor: Color(0xFFF5F0FF),
-          ),
-          const SizedBox(height: 12),
-          QuickActionItem(
-            icon: Icons.logout,
-            label: 'Logout',
-            iconColor: Colors.red,
-            backgroundColor: const Color(0xFFFFF0F0),
+            backgroundColor: const Color(0xFFF5F0FF),
             onTap: (){
-              ProfileCubit.get(context).LogOut();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AppSettingsScreen()),
+              );
             },
           ),
+          const SizedBox(height: 12),
+          // QuickActionItem(
+          //   icon: Icons.logout,
+          //   label: 'Logout',
+          //   iconColor: Colors.red,
+          //   backgroundColor: const Color(0xFFFFF0F0),
+          //   onTap: (){
+          //     ProfileCubit.get(context).LogOut();
+          //   },
+          // ),
         ],
       ),
     );

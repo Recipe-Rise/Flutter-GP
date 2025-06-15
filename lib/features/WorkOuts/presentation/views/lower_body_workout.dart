@@ -99,20 +99,31 @@ class HeaderSection extends StatelessWidget {
               CustomIconButton(
                 icon: Icons.chevron_left,
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const WorkoutsScreen(),
-                    ),
-                  );
+
+                  Navigator.of(context).pop();
+
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const WorkoutsScreen(),
+                  //   ),
+                  // );
                 },
               ),
+
+              const Spacer(),
+
               Text('Lower Body Workout',
                   style:
-                  Styles.textStyle22.copyWith(fontWeight: FontWeight.bold)),
-              CustomIconButton(
-                icon: Icons.more_horiz,
-                onPressed: () {},
-              ),
+                  Styles.textStyle22.copyWith(
+                      fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  )),
+
+              const Spacer(),
+              // CustomIconButton(
+              //   icon: Icons.more_horiz,
+              //   onPressed: () {},
+              // ),
             ],
           ),
           SizedBox(height: size.height * 0.020),
@@ -151,7 +162,7 @@ class CustomIconButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(size.width * 0.02),
       ),
       child: IconButton(
-        icon: Icon(icon, color: Colors.black, size: size.width * 0.06),
+        icon: Icon(icon, color: Colors.white, size: size.width * 0.06),
         onPressed: onPressed,
         padding: EdgeInsets.all(size.width * 0.02),
         constraints: const BoxConstraints(),

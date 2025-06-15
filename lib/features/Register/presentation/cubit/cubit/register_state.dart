@@ -1,48 +1,103 @@
-part of 'register_cubit.dart';
-
-@immutable
 abstract class RegisterState {}
 
 class RegisterInitial extends RegisterState {}
 
-class RegisterStep1 extends RegisterState {
-  final RegisterData registerData;
+class RegisterSuccessState extends RegisterState {}
 
-  RegisterStep1(this.registerData);
+class RegisterErrorState extends RegisterState {
+  final String error;
+
+  RegisterErrorState(this.error);
 }
 
-class RegisterStep2 extends RegisterState {
-  final RegisterData registerData;
+class RegisterLoadingState extends RegisterState {}
 
-  RegisterStep2(this.registerData);
+class VerificationCodeLoadingState extends RegisterState {}
+
+
+class VerificationCodeSuccessState extends RegisterState {
+  final String message;
+
+  VerificationCodeSuccessState(this.message);
 }
 
-class RegisterStep3 extends RegisterState {
-  final RegisterData registerData;
 
-  RegisterStep3(this.registerData);
+class VerificationCodeErrorState extends RegisterState {
+  final String error;
+
+  VerificationCodeErrorState(this.error);
 }
 
-class RegisterStep3_1 extends RegisterState {
-  final RegisterData registerData;
 
-  RegisterStep3_1(this.registerData);
+
+
+class EmailVerifiedLoadingState extends RegisterState {}
+
+
+class EmailVerifiedSuccessState extends RegisterState {
+  final String message;
+
+  EmailVerifiedSuccessState(this.message);
 }
 
-class RegisterStep3_2 extends RegisterState {
-  final RegisterData registerData;
 
-  RegisterStep3_2(this.registerData);
+class EmailVerifiedErrorState extends RegisterState {
+  final String error;
+
+  EmailVerifiedErrorState(this.error);
 }
 
-class RegisterStep3_3 extends RegisterState {
-  final RegisterData registerData;
+class RegisterChangePasswordVisibilityState extends RegisterState {}
 
-  RegisterStep3_3(this.registerData);
-}
 
-class RegisterComplete extends RegisterState {
-  final RegisterData registerData;
 
-  RegisterComplete(this.registerData);
-}
+
+// part of 'register_cubit.dart';
+//
+// @immutable
+// abstract class RegisterState {}
+//
+// class RegisterInitial extends RegisterState {}
+//
+// class RegisterStep1 extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterStep1(this.registerData);
+// }
+//
+// class RegisterStep2 extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterStep2(this.registerData);
+// }
+//
+// class RegisterStep3 extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterStep3(this.registerData);
+// }
+//
+// class RegisterStep3_1 extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterStep3_1(this.registerData);
+// }
+//
+// class RegisterStep3_2 extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterStep3_2(this.registerData);
+// }
+//
+// class RegisterStep3_3 extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterStep3_3(this.registerData);
+// }
+//
+// class RegisterComplete extends RegisterState {
+//   final RegisterData registerData;
+//
+//   RegisterComplete(this.registerData);
+// }
+

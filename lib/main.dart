@@ -1,11 +1,14 @@
 import 'package:fitfork_gp/constants.dart';
+import 'package:fitfork_gp/features/Home/presentation/cubit/home_cubit.dart';
 import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart';
 import 'package:fitfork_gp/features/Login/presentation/cubit/login_cubit.dart';
 import 'package:fitfork_gp/features/Login/presentation/views/login_screen.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/on_Boarding_view.dart';
 import 'package:fitfork_gp/features/Profile/presentation/cubit/cubit.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/cubit/recipe_cubit.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
 import 'package:fitfork_gp/features/WorkOuts/presentation/cubit/cubit.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/cubits/onboarding_cubit.dart';
 import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
 import 'package:fitfork_gp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/gestures.dart';
@@ -20,6 +23,7 @@ import 'package:fitfork_gp/shared/cubit/appCubit.dart';
 import 'package:fitfork_gp/shared/cubit/appCubitStates.dart';
 
 void main() async{
+
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer =  MyBlocObserver();
   await CacheHelper.init();
@@ -27,24 +31,24 @@ void main() async{
 
   Widget widget;
 
-  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  // bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   //user_id = CacheHelper.getData(key: 'user_id');
 
   //print(user_id);
 
-  if(onBoarding != null){
-    // if(user_id != null){
-    //   widget = HomeScreen(
-    //       firstName: '',
-    //       bmi: 20,
-    //       bmr: 20,);
-    // }
-    widget = LoginScreen();
-  }
-  else {
-    widget = OnboardingScreen();
-  }
-  runApp(FitFork(startWidget : widget));
+  // if(onBoarding != null){
+  //   // if(user_id != null){
+  //   //   widget = HomeScreen(
+  //   //       firstName: '',
+  //   //       bmi: 20,
+  //   //       bmr: 20,);
+  //   // }
+  //   widget = LoginScreen();
+  // }
+  // else {
+  //   widget = OnboardingScreen();
+  // }
+  runApp(FitFork(startWidget : SplashView()));
 }
 
 
@@ -62,6 +66,9 @@ class FitFork extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => WorkOutCubit(),),
         BlocProvider(create: (BuildContext context) => LoginCubit()),
         BlocProvider(create: (BuildContext context) => ProfileCubit()),
+        BlocProvider(create: (BuildContext context) => RecipeRecommendationCubit()),
+        BlocProvider(create: (BuildContext context) => HomeCubit()),
+        BlocProvider(create: (BuildContext context) => OnboardingCubit()),
 
 
       ],
@@ -80,8 +87,19 @@ class FitFork extends StatelessWidget {
           //   );
           // }
           return GetMaterialApp(
+
+
             debugShowCheckedModeBanner: false,
-            theme: ThemeData().copyWith(scaffoldBackgroundColor: Colors.white),
+            //theme: ThemeData().copyWith(scaffoldBackgroundColor: Colors.white),
+            themeMode: ThemeMode.system,
+            darkTheme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff2A72B4) , brightness: Brightness.dark),
+              useMaterial3: true,
+            ),
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff2A72B4) , brightness: Brightness.light),
+              useMaterial3: true,
+            ),
             home : startWidget,
           );
         },

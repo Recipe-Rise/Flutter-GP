@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UserMetricsRow extends StatelessWidget {
-  final double weight;
-  final double height;
+  final String weight;
+  final String height;
   final int age;
   final String gender;
 

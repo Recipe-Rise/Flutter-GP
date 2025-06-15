@@ -1,9 +1,11 @@
 import 'package:fitfork_gp/features/Login/presentation/views/login_screen.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen2.dart';
+import 'package:fitfork_gp/features/Register/presentation/views/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../constants.dart';
 import '../cubit/cubit/register_cubit.dart';
+import '../cubit/cubit/register_state.dart';
 import '../widgets/custom_gradient_button.dart';
 import '../widgets/custom_text_feild.dart';
 
@@ -15,17 +17,67 @@ class RegisterScreen1 extends StatefulWidget {
 }
 
 class _RegisterScreen1State extends State<RegisterScreen1> {
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   bool _acceptTerms = false;
+
+  void _verifyEmail(BuildContext context) {
+    if (_formKey.currentState!.validate() && _acceptTerms) {
+      RegisterCubit.get(context).updateFirstName(_firstNameController.text);
+      RegisterCubit.get(context).updateLastName(_lastNameController.text);
+      RegisterCubit.get(context).updateEmail(_emailController.text);
+
+      RegisterCubit.get(context).sendEmailVerificationCode(
+        email: _emailController.text,
+      );
+
+    } else if (!_acceptTerms) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please accept the terms and conditions'),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return BlocConsumer<RegisterCubit,RegisterState>(
-      listener: (context , state){},
+      listener: (context , state){
+        if (state is VerificationCodeSuccessState) {
+
+          if(!mounted) return ;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => VerificationCodeScreen(
+                    email: _emailController.text,
+                  ),
+                ),
+              );
+            });
+        }
+        else if (state is VerificationCodeErrorState) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${state.error}'),
+              ),
+            );
+          }
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -103,22 +155,22 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                     icon: Icons.email,
                   ),
                   const SizedBox(height: 16),
-                  CustomTextFeild(
-                    label: 'Password',
-                    controller: _passwordController,
-                    obscureText: true,
-                    onChanged: (value) {},
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                    icon: Icons.lock,
-                  ),
+                  // CustomTextFeild(
+                  //   label: 'Password',
+                  //   controller: _passwordController,
+                  //   obscureText: true,
+                  //   onChanged: (value) {},
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Please enter your password';
+                  //     }
+                  //     if (value.length < 6) {
+                  //       return 'Password must be at least 6 characters';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   icon: Icons.lock,
+                  // ),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -144,29 +196,9 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
                   const SizedBox(height: 100),
                   Center(
                     child: CustomGradientButton(
-                      text: 'Register',
+                      text: 'Verify Email',
                       onPressed: () {
-                        if (_formKey.currentState!.validate() && _acceptTerms) {
-                          final cubit = context.read<RegisterCubit>();
-                          cubit.updateFirstName(_firstNameController.text);
-                          cubit.updateLastName(_lastNameController.text);
-                          cubit.updateEmail(_emailController.text);
-                          cubit.updatePassword(_passwordController.text);
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RegisterScreen2(),
-                            ),
-                          );
-                        } else if (!_acceptTerms) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                              Text('Please accept the terms and conditions'),
-                            ),
-                          );
-                        }
+                        _verifyEmail(context);
                       },
                       gradient: kButtonColor,
                     ),
@@ -197,3 +229,4 @@ class _RegisterScreen1State extends State<RegisterScreen1> {
     );
   }
 }
+

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HealthyWeightRange extends StatelessWidget {
-  final double height;
+  final String height;
 
   const HealthyWeightRange({
     Key? key,
@@ -9,12 +9,12 @@ class HealthyWeightRange extends StatelessWidget {
   }) : super(key: key);
 
   double _getHealthyMinWeight() {
-    final heightInMeters = height / 100;
+    final heightInMeters = double.parse(height) / 100;
     return 18.5 * heightInMeters * heightInMeters;
   }
 
   double _getHealthyMaxWeight() {
-    final heightInMeters = height / 100;
+    final heightInMeters = double.parse(height) / 100;
     return 24.9 * heightInMeters * heightInMeters;
   }
 

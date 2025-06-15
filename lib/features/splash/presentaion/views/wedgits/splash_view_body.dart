@@ -27,7 +27,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
     super.initState();
     InitSlidingAnimation();
     Future.delayed(const Duration(seconds: 3), () {
-      Get.to(() => onBoarding !=null ? OnboardingScreen() : RegisterScreen1(),
+      Get.to(() => OnboardingScreen() , //onBoarding == null ? OnboardingScreen() : RegisterScreen1(),
           transition: Transition.fade, duration: kTranstionDuration);
     });
   }

@@ -1,11 +1,34 @@
-import 'package:fitfork_gp/features/Register/presentation/widgets/custom_gradient_button.dart';
-import 'package:fitfork_gp/features/onbparding2/presentation/cubits/onboarding_cubit.dart';
-import 'package:fitfork_gp/features/onbparding2/presentation/widgets/progress_indicator_bar.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/views/activity_level_screen.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/views/understanding_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GoalConfirmationScreen extends StatelessWidget {
-  const GoalConfirmationScreen({Key? key}) : super(key: key);
+class GoalConfirmationScreen extends StatefulWidget {
+  final String? selectedGoal;
+
+  const GoalConfirmationScreen({Key? key, this.selectedGoal}) : super(key: key);
+
+  @override
+  State<GoalConfirmationScreen> createState() => _GoalConfirmationScreenState();
+}
+
+class _GoalConfirmationScreenState extends State<GoalConfirmationScreen> {
+
+  String getMainGoalDescription() {
+    switch (widget.selectedGoal) {
+      case 'Lose Weight':
+        return 'lose weight';
+      case 'Loss weight and gain muscles':
+        return 'lose weight and gain muscles';
+      case 'Gain Weight':
+        return 'gain weight';
+      case 'Gain Muscle':
+        return 'gain muscle';
+      case 'Fitness':
+        return 'improve your fitness';
+      default:
+        return 'achieve your fitness goal';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +48,7 @@ class GoalConfirmationScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () =>
-              context.read<OnboardingCubit>().goToPreviousScreen(context),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Padding(
@@ -34,47 +56,67 @@ class GoalConfirmationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ProgressIndicatorBar(currentStep: 1, totalSteps: 5),
             SizedBox(height: screenHeight * 0.07),
-            Text(
+            const Text(
               "Great! You've just taken a big step on your journey.",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 24),
-            Text(
+            const Text(
               "Did you know that tracking your food is a scientifically proven method to being successful? It's called \"self-monitoring\" and the more consistent you are, the more likely you are to hit your goals.",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
               ),
             ),
             const SizedBox(height: 24),
-            BlocBuilder<OnboardingCubit, OnboardingState>(
-              builder: (context, state) {
-                return Text(
-                  "Now, let's talk about your goal to ${state.getMainGoalDescription()}.",
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                );
-              },
+            Text(
+              "Now, let's talk about your goal to ${getMainGoalDescription()}.",
+              style: const TextStyle(
+                fontSize: 16,
+              ),
             ),
             const Spacer(),
             Center(
-              child: CustomGradientButton(
-                text: 'Next',
-                onPressed: () =>
-                    context.read<OnboardingCubit>().goToNextScreen(context),
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
+              child: Container(
                 width: screenWidth * 0.85,
                 height: 56,
-                borderRadius: 28,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ActivityLevelScreen(),
+                      ),
+                    );
+                    print('Moving to understanding screen');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                  ),
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: screenHeight * 0.02),

@@ -5,7 +5,6 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/hydration_progress
 import 'package:fitfork_gp/features/Home/presentation/widgets/water_log_item.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/weekly_progress_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class WaterIntakeScreen extends StatefulWidget {
   const WaterIntakeScreen({Key? key}) : super(key: key);
@@ -15,28 +14,13 @@ class WaterIntakeScreen extends StatefulWidget {
 }
 
 class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
-  final double _dailyGoal = 8.0;
+  final double _dailyGoal = 8.0; // in liters
   double _currentIntake = 4.0;
 
   final List<WaterLogEntry> _waterLogs = [
-    WaterLogEntry(
-      type: 'Glass',
-      amount: 250,
-      time: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day, 8, 30),
-    ),
-    WaterLogEntry(
-      type: 'Bottle',
-      amount: 500,
-      time: DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, 11, 45),
-    ),
-    WaterLogEntry(
-      type: 'Mug',
-      amount: 300,
-      time: DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, 14, 15),
-    ),
+    WaterLogEntry(type: 'Glass', amount: 250, time: DateTime.now().subtract(const Duration(hours: 6))),
+    WaterLogEntry(type: 'Bottle', amount: 500, time: DateTime.now().subtract(const Duration(hours: 3))),
+    WaterLogEntry(type: 'Mug', amount: 300, time: DateTime.now().subtract(const Duration(hours: 1))),
   ];
 
   final List<double> _weeklyData = [2.5, 4.0, 6.0, 8.0, 7.5, 7.0, 0.0];
@@ -58,17 +42,14 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
 
   void _editWaterLog(int index) {
     final logEntry = _waterLogs[index];
-
     showDialog(
       context: context,
       builder: (context) => EditLogDialog(
         logEntry: logEntry,
         onSave: (updatedEntry) {
           setState(() {
-            final amountDifference = updatedEntry.amount - logEntry.amount;
-
-            _currentIntake += amountDifference / 1000;
-
+            final difference = updatedEntry.amount - logEntry.amount;
+            _currentIntake += difference / 1000;
             _waterLogs[index] = updatedEntry;
           });
         },
@@ -77,30 +58,28 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
   }
 
   int _getGlassesNeeded() {
-    double litersMissing = _dailyGoal - _currentIntake;
-    return (litersMissing * 1000 / 250).ceil();
+    double litersRemaining = _dailyGoal - _currentIntake;
+    return (litersRemaining * 1000 / 250).ceil();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isSmallScreen = size.width < 360;
+    final padding = EdgeInsets.symmetric(horizontal: size.width * 0.04);
+
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        leading: BackButton(),
         title: const Text('Water Intake'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {},
-          ),
-        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(
+          left: padding.left,
+          right: padding.right,
+          top: 16,
+          bottom: 80, // for safe space with FAB
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -109,49 +88,43 @@ class _WaterIntakeScreenState extends State<WaterIntakeScreen> {
               goalIntake: _dailyGoal,
               glassesNeeded: _getGlassesNeeded(),
             ),
-            const SizedBox(height: 24),
-            const Text(
+            SizedBox(height: size.height * 0.03),
+            Text(
               "Today's Log",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: isSmallScreen ? 16 : 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _waterLogs.length,
-                itemBuilder: (context, index) {
-                  final log = _waterLogs[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: WaterLogItem(
-                      logEntry: log,
-                      onEdit: () {
-                        _editWaterLog(index);
-                      },
-                      onDelete: () {
-                        setState(() {
-                          _currentIntake -= log.amount / 1000;
-                          _waterLogs.removeAt(index);
-                        });
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
+            SizedBox(height: size.height * 0.015),
+            ..._waterLogs.asMap().entries.map((entry) {
+              final index = entry.key;
+              final log = entry.value;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: WaterLogItem(
+                  logEntry: log,
+                  onEdit: () => _editWaterLog(index),
+                  onDelete: () {
+                    setState(() {
+                      _currentIntake -= log.amount / 1000;
+                      _waterLogs.removeAt(index);
+                    });
+                  },
+                ),
+              );
+            }).toList(),
+            SizedBox(height: size.height * 0.03),
+            Text(
               "Weekly Progress",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: isSmallScreen ? 16 : 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: size.height * 0.015),
             SizedBox(
-              height: 200,
+              height: size.height * 0.25,
               child: WeeklyProgressChart(
                 weeklyData: _weeklyData,
                 goalValue: _dailyGoal,

@@ -32,7 +32,7 @@ class RangeSliderWithLabels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final defaultActiveColor = activeColor ?? theme.primaryColor;
+    final defaultActiveColor = activeColor ?? const Color.fromARGB(255, 7, 81, 145);
     final defaultInactiveColor = inactiveColor ?? Colors.grey.shade300;
 
     return Container(
@@ -74,9 +74,14 @@ class RangeSliderWithLabels extends StatelessWidget {
           // Range Slider
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
-              activeTrackColor: defaultActiveColor,
-              inactiveTrackColor: defaultInactiveColor,
-              thumbColor: Colors.white,
+              activeTrackColor: const Color(0xFF74b9ff),
+              inactiveTrackColor: const Color(0xFFe9ecef),
+              thumbColor: const Color(0xFF74b9ff),
+              valueIndicatorColor: Color.fromARGB(255, 7, 81, 145),
+              thumbShape: const RoundSliderThumbShape(
+                enabledThumbRadius: 10,
+                elevation: 4,
+              ),
               rangeThumbShape: const RoundRangeSliderThumbShape(
                 enabledThumbRadius: 10,
                 elevation: 4,

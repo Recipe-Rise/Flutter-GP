@@ -2,17 +2,15 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/custom_pie_chart.d
 import 'package:flutter/material.dart';
 
 class CalorieSummaryCard extends StatelessWidget {
-  final int consumedCalories;
-  final int totalCalories;
-  final int remainingCalories;
-  final int burnedCalories;
+  final double consumedCalories;
+  final double totalCalories;
+  final double remainingCalories;
 
   const CalorieSummaryCard({
     Key? key,
     required this.consumedCalories,
     required this.totalCalories,
     required this.remainingCalories,
-    required this.burnedCalories,
   }) : super(key: key);
 
   @override
@@ -95,14 +93,6 @@ class CalorieSummaryCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.green.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '$burnedCalories kcal burned',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                    ),
                   ),
                 ),
               ],

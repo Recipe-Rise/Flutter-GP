@@ -4,6 +4,7 @@ import 'package:fitfork_gp/features/OnBoarding/data/models/onboarding_item.dart'
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_indicator.dart';
 import 'package:fitfork_gp/features/OnBoarding/presentaion/Views/widgets/onboarding_page.dart';
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen1.dart';
+import 'package:fitfork_gp/features/onbparding2/presentation/views/goal_selection_screen.dart';
 import 'package:fitfork_gp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       if(value) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => RegisterScreen1()),
+          MaterialPageRoute(builder: (context) => GoalSelectionScreen()),
               (Route<dynamic> route) => false,
         );
       }

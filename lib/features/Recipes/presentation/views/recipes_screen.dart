@@ -1,4 +1,9 @@
+import 'dart:math';
+
+import 'package:fitfork_gp/features/Recipes/presentation/cubit/recipe_cubit.dart';
 import 'package:fitfork_gp/features/Recipes/presentation/views/category_recipes_screen.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/views/recipe_history_screen.dart';
+import 'package:fitfork_gp/features/Recipes/presentation/widgets/animated_category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fitfork_gp/core/utils/app_navigator.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
@@ -21,28 +26,39 @@ class RecipesScreen extends StatefulWidget {
   State<RecipesScreen> createState() => _RecipesScreenState();
 }
 
-class _RecipesScreenState extends State<RecipesScreen> {
+class _RecipesScreenState extends State<RecipesScreen>
+with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
   int _selectedIndex = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        automaticallyImplyLeading: false,
+        title: const Center(
           child: Text(
             "Recipes",
             style: Styles.textStyle26,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              FontAwesomeIcons.bell,
-              size: 18,
-            ),
-            onPressed: () {},
-          ),
-        ],
+
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -58,7 +74,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      CategoryCard(
+                      AnimatedCategoryCard(
                         title: "Breakfast",
                         subtitle: "Start your day with energizing meals",
                         backgroundColor: const Color(0xFF5BC0DE),
@@ -66,7 +82,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                         onTap: () => _navigateToCategory('breakfast'),
                       ),
                       const SizedBox(height: 16),
-                      CategoryCard(
+                      AnimatedCategoryCard(
                         title: "Lunch",
                         subtitle: "Delicious midday meal options",
                         backgroundColor: const Color(0xFF5B99DE),
@@ -74,7 +90,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
                         onTap: () => _navigateToCategory('lunch'),
                       ),
                       const SizedBox(height: 16),
-                      CategoryCard(
+                      AnimatedCategoryCard(
                         title: "Dinner",
                         subtitle: "Perfect evening meal collection",
                         backgroundColor: const Color(0xFF5B6EDE),
@@ -89,6 +105,41 @@ class _RecipesScreenState extends State<RecipesScreen> {
           );
         },
       ),
+      floatingActionButton: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          return Transform.rotate(
+            angle: _animationController.value * 2 * pi,
+            child: FloatingActionButton(
+              onPressed: () {
+                if (_animationController.isCompleted) {
+                  _animationController.reverse();
+                } else {
+                  _animationController.forward();
+                }
+                _showHistoryDialog(context);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              elevation: 8,
+              backgroundColor: null, // Gradient applied below
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF5BC0DE), Color(0xFF5B99DE)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(Icons.history, color: Colors.white),
+              ),
+            ),
+          );
+        },
+      ),
+
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -99,9 +150,6 @@ class _RecipesScreenState extends State<RecipesScreen> {
       MaterialPageRoute(
         builder: (context) => CategoryRecipesScreen(
           category: category,
-          firstName: widget.firstName,
-          bmi: widget.bmi,
-          bmr: widget.bmr,
         ),
       ),
     );
@@ -149,4 +197,38 @@ class _RecipesScreenState extends State<RecipesScreen> {
       ],
     );
   }
+
+  void _showHistoryDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('View Recipe History'),
+          content: const Text('Do you want to view your recipe history?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                RecipeRecommendationCubit.get(context).getUserRecipeHistory();
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RecipeHistoryPage(),
+                  ),
+                );
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

@@ -67,8 +67,7 @@ class _LoginForm extends StatelessWidget {
               Navigator.pushAndRemoveUntil(context,
                   MaterialPageRoute(builder : (context)=> HomeScreen(
                       firstName: state.loginModel.name,
-                      bmi: 20,
-                      bmr: 20)),
+                      )),
                       (Route<dynamic> route) => false);
 
             });
@@ -96,10 +95,16 @@ class _LoginForm extends StatelessWidget {
           // );
 
         } else if (state is LoginFailure) {
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error)),
+          Fluttertoast.showToast(
+              msg: "Invalid E-mail or Password",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 5,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
           );
+
         }
       },
       builder: (context , state) {
@@ -203,10 +208,10 @@ class _LoginForm extends StatelessWidget {
                         child: Text(
                           'Forgot your password?',
                           style: Styles.textStyle16.copyWith(
-                            color: Colors.black,
+                            //color: Colors.black,
                             fontWeight: FontWeight.w400,
                             decoration: TextDecoration.underline,
-                            decorationColor: Colors.black,
+                            //decorationColor: Colors.black,
                             decorationThickness: 2,
                             height: 3,
                           ),
@@ -214,7 +219,7 @@ class _LoginForm extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 70),
+                  const SizedBox(height: 40),
                   BlocBuilder<LoginCubit, LoginState>(
                     builder: (context, state) {
                       final isLoading = state is LoginLoading;
@@ -252,7 +257,7 @@ class _LoginForm extends StatelessWidget {
                         child: Text(
                           'Or',
                           style: Styles.textStyle14.copyWith(
-                            color: Colors.black,
+                            //color: Colors.black,
                           ),
                         ),
                       ),
@@ -271,10 +276,12 @@ class _LoginForm extends StatelessWidget {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: 'Don\'t have an account yet? ',
-                      style: Styles.textStyle16.copyWith(
+                      style: TextStyle(
+                        color : Theme.of(context).brightness == Brightness.dark ?
+                        Colors.white :
+                        Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
                       ),
                       children: [
                         TextSpan(

@@ -20,9 +20,11 @@ class EachBodypartWorkouts extends StatelessWidget {
     WorkOutCubit.get(context).getAllExcercisesForBodyPartData(bodyPart: bodyPart);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         title: Text('$bodyPart Workouts'),
-        backgroundColor: const Color(0xff4597ff),
+        backgroundColor: Colors.white, //Color(0xff4597ff),
       ),
       body: BlocConsumer<WorkOutCubit, WorkOutsStates>(
         listener: (context, state) {

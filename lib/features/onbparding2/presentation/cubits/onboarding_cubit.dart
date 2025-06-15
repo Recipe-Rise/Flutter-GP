@@ -37,8 +37,9 @@ class OnboardingState {
 
   bool get isGoalSelectionValid {
     bool hasWeightGoal = selectedGoals.contains('Lose Weight') ||
-        selectedGoals.contains('Maintain Weight') ||
-        selectedGoals.contains('Gain Weight');
+        selectedGoals.contains('Loss weight and gain muscles') ||
+        selectedGoals.contains('Gain Weight') || selectedGoals.contains('Gain Muscle')
+    || selectedGoals.contains('fitness');
     return selectedGoals.isNotEmpty &&
         selectedGoals.length <= 3 &&
         hasWeightGoal;

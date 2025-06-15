@@ -27,5 +27,9 @@ void signOut(context){
 
 var user_id;
 
+var remainingCalories;
+
+var consumedCalories;
+
 AppCubit appCubit = AppCubit();
 

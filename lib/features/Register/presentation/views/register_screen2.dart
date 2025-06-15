@@ -1,9 +1,12 @@
 import 'package:fitfork_gp/features/Register/presentation/views/register_screen31.dart';
+import 'package:fitfork_gp/features/Register/presentation/views/success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../constants.dart';
 import '../../../../core/utils/assets.dart';
 import '../cubit/cubit/register_cubit.dart';
+import '../cubit/cubit/register_state.dart';
 import '../widgets/custom_gradient_button.dart';
 import '../widgets/custom_text_feild.dart';
 
@@ -24,7 +27,21 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit,RegisterState>(
-      listener: (context,state) {},
+      listener: (context,state) {
+        if (state is RegisterSuccessState) {
+          Fluttertoast.showToast(
+            msg: "User added successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+          );
+        } else if (state is RegisterErrorState) {
+          Fluttertoast.showToast(
+            msg: "Error: ${state.error}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
+      },
       builder: (context , state ){
         return Scaffold(
           body: SingleChildScrollView(
@@ -218,16 +235,39 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                           return;
                         }
 
+                        if (_calcAge == null || _calcAge <= 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please select a valid date of birth'),
+                            ),
+                          );
+                          return;
+                        }
+
                         final cubit = context.read<RegisterCubit>();
+
                         cubit.updateGender(_selectedGender!);
                         cubit.updateDateOfBirth(_selectedDate);
                         cubit.updateWeight(double.parse(_weightController.text));
                         cubit.updateHeight(double.parse(_heightController.text));
 
+                        RegisterCubit.get(context).registerUser(
+                            name: cubit.registerData.firstName,
+                            email: cubit.registerData.email,
+                            password: cubit.registerData.password,
+                            age: _calcAge,
+                            gender: RegisterCubit.get(context).registerData.gender,
+                            weight: RegisterCubit.get(context).registerData.weight,
+                            height: RegisterCubit.get(context).registerData.height,
+                            activityLevel: RegisterCubit.get(context).registerData.activityLevel,
+                            fitnessGoal: RegisterCubit.get(context).registerData.fitnessGoal,
+                            context: context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RegisterScreen31(),
+                            builder: (context) => SuccessScreen(
+                                firstName: RegisterCubit.get(context).registerData.firstName,
+                            ),
                           ),
                         );
                       },

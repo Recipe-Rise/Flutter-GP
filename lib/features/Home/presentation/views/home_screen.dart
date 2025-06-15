@@ -1,3 +1,4 @@
+import 'package:fitfork_gp/constants.dart';
 import 'package:fitfork_gp/core/utils/app_navigator.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/activity_status_header.dart';
@@ -6,23 +7,26 @@ import 'package:fitfork_gp/features/Home/presentation/widgets/calories_card.dart
 import 'package:fitfork_gp/features/Home/presentation/widgets/sleep_card.dart';
 import 'package:fitfork_gp/features/Home/presentation/widgets/water_intake_card.dart';
 import 'package:fitfork_gp/shared/cubit/appCubit.dart';
+import 'package:fitfork_gp/shared/cubit/appCubitStates.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fitfork_gp/features/Home/presentation/views/calories_tracking_screen.dart';
 import 'package:fitfork_gp/features/Home/presentation/views/sleep_insights_screen.dart';
 import 'package:fitfork_gp/features/Home/presentation/views/water_intake_screen.dart';
 
+import '../../../../constants.dart';
+import '../../../../constants.dart';
+import '../../../../shared/network/local/cache_helper.dart';
+import '../../../Step_counter/step_counter_widget.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final String firstName;
-  final double bmi;
-  final double bmr;
 
   const HomeScreen({
     super.key,
     required this.firstName,
-    required this.bmi,
-    required this.bmr,
   });
 
   @override
@@ -32,8 +36,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  double savedRemainingCalories = 0.0;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    _loadRemainingCalories();
+  }
+
+  Future<void> _loadRemainingCalories() async {
+    final bmr = double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '0.0') ?? 0.0;
+    savedRemainingCalories = await CacheHelper().getRemainingCalories(bmr) ?? bmr;
+    setState(() {
+      savedRemainingCalories = savedRemainingCalories;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context)  {
     final waterIntakeUpdates = [
       {"time": "6am - 8am", "amount": "600"},
       {"time": "9am - 11am", "amount": "500"},
@@ -42,148 +62,197 @@ class _HomeScreenState extends State<HomeScreen> {
       {"time": "4pm - now", "amount": "900"},
     ];
 
+    final bmr = double.parse(AppCubit.get(context).getUserData?.bmr ?? '0.0');
+
+
+
+
     int totalWaterIntake = 0;
     for (var update in waterIntakeUpdates) {
       totalWaterIntake += int.parse(update["amount"]!);
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Welcome Back,",
-                    style: Styles.textStyle16.copyWith(
-                      color: Colors.black.withOpacity(0.6),
-                    ),
-                  ),
-                  const Icon(
-                    FontAwesomeIcons.bell,
-                    size: 18,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                AppCubit.get(context).getUserData!.name!,
-                style: Styles.textStyle26,
-              ),
-              const SizedBox(height: 16),
-              BmiCard(bmi: double.tryParse(AppCubit.get(context).getUserData?.bmi ?? '') ?? 0.0,),
-              const SizedBox(height: 24),
-              const ActivityStatusHeader(),
-              const SizedBox(height: 16),
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+    return BlocConsumer<AppCubit , AppStates>(
+      listener: (context , state){},
+      builder: (context,state){
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24, vertical: 16),
+        child: state is AppLoadingUserDataState ? const
+        Center(child: CircularProgressIndicator(color: Colors.blue,))
+
+
+                : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: WaterIntakeCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WaterIntakeScreen(),
-                            ),
-                          );
-                        },
-                        waterIntakeInML: totalWaterIntake,
-                        timeUpdates: waterIntakeUpdates,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SleepCard(
-                            hours: "8",
-                            minutes: "20",
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SleepInsightsScreen()),
-                              );
-                            },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Welcome Back,",
+                          style: Styles.textStyle16.copyWith(
+                            color: Colors.black.withOpacity(0.6),
                           ),
-                          const SizedBox(height: 16),
-                          CaloriesCard(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CaloriesTrackingScreen()),
-                              );
-                            },
-                            bmr: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
-                            consumedCalories: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0 - 230,
+                        ),
+                        // const Icon(
+                        //   FontAwesomeIcons.bell,
+                        //   size: 18,
+                        // ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      AppCubit
+                          .get(context)
+                          .getUserData!
+                          .name!,
+                      style: Styles.textStyle26,
+                    ),
+                    const SizedBox(height: 16),
+                    BmiCard(bmi: double.tryParse(AppCubit
+                        .get(context)
+                        .getUserData
+                        ?.bmi ?? '') ?? 0.0,),
+                    const SizedBox(height: 24),
+                    const ActivityStatusHeader(),
+                    const SizedBox(height: 16),
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: WaterIntakeCard(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => WaterIntakeScreen(),
+                                  ),
+                                );
+                              },
+                              waterIntakeInML: totalWaterIntake,
+                              timeUpdates: waterIntakeUpdates,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SleepCard(
+                                  hours: "8",
+                                  minutes: "20",
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SleepInsightsScreen()),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                CaloriesCard(
+
+                                  onTap: () //async
+                                  {
+                                    // final double remaining = await CacheHelper().getRemainingCalories(double.tryParse(AppCubit
+                                    //     .get(context)
+                                    //     .getUserData
+                                    //     ?.bmr ?? '') ?? 0.0,) ?? 0.0;
+                                    //
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context)=>
+                                    //           CaloriesTrackingScreen(
+                                    //             bmr:double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
+                                    //             consumedCalories: double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0 - remaining,
+                                    //             remainingCalories: remaining ,
+                                    //
+                                    //           )),
+                                    //
+                                    // );
+                                  },
+                                  bmr: bmr,
+                                  consumedCalories: (bmr - savedRemainingCalories).clamp(0.0, bmr),
+                                  //double.tryParse(AppCubit.get(context).getUserData!.bmr!) ?? 0.0 - savedRemainingCalories,
+                                ),
+                                const SizedBox(height: 16),
+                                const StepCounterWidget(),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        elevation: 8,
-        selectedItemColor: const Color(0xFF1A75FF),
-        unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          if (index != _selectedIndex) {
-            final args = {
-              'firstName': AppCubit.get(context).getUserData!.name!,
-              'bmi': double.tryParse(AppCubit.get(context).getUserData?.bmi ?? '') ?? 0.0,
-              'bmr': double.tryParse(AppCubit.get(context).getUserData?.bmr ?? '') ?? 0.0,
-            };
-            AppNavigator.navigateToTabScreen(context, index, arguments: args);
-          } else {
-            setState(() {
-              _selectedIndex = index;
-            });
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.dumbbell),
-            label: 'Workouts',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.message),
-            label: 'Chatbot',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.utensils),
-            label: 'Recipes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.user),
-            label: 'Profile',
-          ),
-        ],
-      ),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.white,
+              elevation: 8,
+              selectedItemColor: const Color(0xFF1A75FF),
+              unselectedItemColor: Colors.grey,
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                if (index != _selectedIndex) {
+                  final args = {
+                    'firstName': AppCubit
+                        .get(context)
+                        .getUserData!
+                        .name!,
+                    'bmi': double.tryParse(AppCubit
+                        .get(context)
+                        .getUserData
+                        ?.bmi ?? '') ?? 0.0,
+                    'bmr': double.tryParse(AppCubit
+                        .get(context)
+                        .getUserData
+                        ?.bmr ?? '') ?? 0.0,
+                  };
+                  AppNavigator.navigateToTabScreen(
+                      context, index, arguments: args);
+                } else {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                }
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.dumbbell),
+                  label: 'Workouts',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.message),
+                  label: 'Chatbot',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.utensils),
+                  label: 'Recipes',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.user),
+                  label: 'Profile',
+                ),
+              ],
+            ),
+          );
+
+      },
     );
   }
 }

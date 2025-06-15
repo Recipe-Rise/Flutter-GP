@@ -1,20 +1,17 @@
 import 'package:fitfork_gp/constants.dart';
 import 'package:fitfork_gp/core/utils/assets.dart';
 import 'package:fitfork_gp/core/utils/styles.dart';
+import 'package:fitfork_gp/features/Register/presentation/cubit/cubit/register_cubit.dart';
 import 'package:fitfork_gp/features/Register/presentation/widgets/custom_gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fitfork_gp/features/Home/presentation/views/home_screen.dart'; // Import HomeScreen
 
 class SuccessScreen extends StatelessWidget {
   final String firstName;
-  final double bmi;
-  final double bmr;
 
   const SuccessScreen({
     super.key,
     required this.firstName,
-    required this.bmi,
-    required this.bmr,
   });
 
   @override
@@ -55,8 +52,6 @@ class SuccessScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => HomeScreen(
-                        bmi: bmi,
-                        bmr: bmr,
                         firstName: firstName,
                       ),
                     ),
